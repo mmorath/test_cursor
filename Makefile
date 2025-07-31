@@ -154,7 +154,7 @@ run-backend: install
 .PHONY: run-frontend
 run-frontend: install
 	@echo "🎨 Starting frontend server..."
-	cd $(FRONTEND_DIR) && $(FRONTEND_PYTHON) main.py
+	cd $(FRONTEND_DIR) && .venv/bin/python main.py
 
 .PHONY: run
 run:

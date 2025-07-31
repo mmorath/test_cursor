@@ -12,6 +12,7 @@ Author: Matthias Morath
 """
 
 import logging
+from typing import Optional
 from fastapi import APIRouter, HTTPException, status, Request, Query
 from fastapi.responses import JSONResponse
 
@@ -19,7 +20,6 @@ from app.models import (
     OrderResponse,
     BaseResponse,
     ErrorResponse,
-    PaginationParams,
 )
 from app.services.logistics_service import LogisticsService
 

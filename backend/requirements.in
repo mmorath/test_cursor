@@ -5,8 +5,8 @@ fastapi
 uvicorn[standard]
 
 # Data validation and serialization
-pydantic
-pydantic-settings
+pydantic>=2.6.0
+pydantic-settings>=2.2.0
 
 # Data processing
 pandas>=2.2.0
