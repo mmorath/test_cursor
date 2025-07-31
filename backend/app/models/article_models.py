@@ -12,6 +12,7 @@ from .common_models import StatusEnum
 
 class Article(BaseModel):
     """Article model for individual article/order line."""
+
     projekt_nr: str = Field(..., description="Project number")
     abteilungsgruppe: str = Field(..., description="Department group")
     kostenstelle: str = Field(..., description="Cost center")
@@ -38,13 +39,15 @@ class Article(BaseModel):
     materialwagen: Optional[str] = Field(None, description="Material cart")
     anzahl_auf_wagen: Optional[int] = Field(None, ge=0, description="Quantity on cart")
     anzahl_fehlt: Optional[int] = Field(None, ge=0, description="Missing quantity")
-    anzahl_beschaedigt: Optional[int] = Field(None, ge=0, description="Damaged quantity")
+    anzahl_beschaedigt: Optional[int] = Field(
+        None, ge=0, description="Damaged quantity"
+    )
 
-    @validator('gewicht')
+    @validator("gewicht")
     def validate_weight(cls, v):
         """Validate weight is positive."""
         if v < 0:
-            raise ValueError('Weight must be positive')
+            raise ValueError("Weight must be positive")
         return v
 
     @property
@@ -67,6 +70,7 @@ class Article(BaseModel):
 
 class ArticleCreate(BaseModel):
     """Model for creating a new article."""
+
     projekt_nr: str = Field(..., description="Project number")
     artikel: str = Field(..., description="Article number")
     artikel_bezeichnung: str = Field(..., description="Article description")
@@ -80,16 +84,20 @@ class ArticleCreate(BaseModel):
 
 class ArticleUpdate(BaseModel):
     """Model for updating an article."""
+
     status: Optional[StatusEnum] = Field(None, description="Status")
     anzahl_auf_wagen: Optional[int] = Field(None, ge=0, description="Quantity on cart")
     anzahl_fehlt: Optional[int] = Field(None, ge=0, description="Missing quantity")
-    anzahl_beschaedigt: Optional[int] = Field(None, ge=0, description="Damaged quantity")
+    anzahl_beschaedigt: Optional[int] = Field(
+        None, ge=0, description="Damaged quantity"
+    )
     kommisionierer: Optional[str] = Field(None, description="Picker")
     materialwagen: Optional[str] = Field(None, description="Material cart")
 
 
 class ArticleResponse(BaseModel):
     """Article response model."""
+
     artikel: str = Field(..., description="Article number")
     artikel_bezeichnung: str = Field(..., description="Article description")
     menge: int = Field(..., description="Required quantity")

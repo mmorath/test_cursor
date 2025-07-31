@@ -22,22 +22,25 @@ def create_order_form_component(on_submit=None):
         project_number = ui.input(
             "Project Number",
             validation={
-                'Project number is required': lambda value: bool(value),
-                'Must be 6 digits': lambda value: validate_project_number(value) is None
-            }
+                "Project number is required": lambda value: bool(value),
+                "Must be 6 digits": lambda value: validate_project_number(value)
+                is None,
+            },
         ).classes("full-width q-mb-md")
 
-        priority = ui.select(
-            "Priority",
-            options=[1, 2, 3, 4, 5],
-            value=1
-        ).classes("full-width q-mb-md")
+        priority = ui.select("Priority", options=[1, 2, 3, 4, 5], value=1).classes(
+            "full-width q-mb-md"
+        )
 
         with ui.row():
-            ui.button("Cancel", on_click=lambda: ui.close_dialog()).classes("bg-grey-500 q-mr-sm")
+            ui.button("Cancel", on_click=lambda: ui.close_dialog()).classes(
+                "bg-grey-500 q-mr-sm"
+            )
             ui.button(
                 "Create",
-                on_click=lambda: handle_order_submit(project_number.value, priority.value, on_submit)
+                on_click=lambda: handle_order_submit(
+                    project_number.value, priority.value, on_submit
+                ),
             ).classes("bg-green-500")
 
 
@@ -51,18 +54,18 @@ def create_order_filter_component(on_filter=None):
         status_filter = ui.select(
             "Status",
             options=["All", "Offen", "In Bearbeitung", "Abgeschlossen"],
-            value="All"
+            value="All",
         ).classes("q-mr-md")
 
         priority_filter = ui.select(
-            "Priority",
-            options=["All", 1, 2, 3, 4, 5],
-            value="All"
+            "Priority", options=["All", 1, 2, 3, 4, 5], value="All"
         ).classes("q-mr-md")
 
         ui.button(
             "Apply Filter",
-            on_click=lambda: handle_filter_apply(status_filter.value, priority_filter.value, on_filter)
+            on_click=lambda: handle_filter_apply(
+                status_filter.value, priority_filter.value, on_filter
+            ),
         ).classes("bg-blue-500")
 
 

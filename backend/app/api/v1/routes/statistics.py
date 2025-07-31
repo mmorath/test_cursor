@@ -32,14 +32,14 @@ async def get_system_overview(request: Request):
         return BaseResponse(
             status="success",
             message="System overview retrieved successfully",
-            data=overview
+            data=overview,
         )
 
     except Exception as e:
         logger.error("❌ Error getting system overview: %s", str(e))
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Internal Server Error"
+            detail="Internal Server Error",
         )
 
 

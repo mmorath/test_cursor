@@ -26,6 +26,7 @@ logger = logging.getLogger(__name__)
 
 # MARK: ━━━ Test Cases ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+
 def test_order_form_component_creation():
     """Test that order form component can be created."""
     logger.info("Testing order form component creation")
@@ -80,9 +81,7 @@ def test_statistics_card_component_creation():
 
     # Create component
     component = create_statistics_card_component(
-        "Test Title",
-        "Test Value",
-        "bg-blue-100"
+        "Test Title", "Test Value", "bg-blue-100"
     )
 
     # Component should be created without errors

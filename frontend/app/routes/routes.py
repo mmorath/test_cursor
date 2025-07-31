@@ -11,7 +11,7 @@ from ..views import (
     create_dashboard_view,
     create_orders_view,
     create_pickers_view,
-    create_carts_view
+    create_carts_view,
 )
 
 logger = logging.getLogger(__name__)
@@ -69,10 +69,18 @@ def create_sidebar():
     with ui.left_drawer().classes("bg-grey-100"):
         ui.label("Navigation").classes("text-h6 q-mb-md")
 
-        ui.button("📋 Orders", on_click=lambda: ui.open("/orders")).classes("full-width q-mb-sm")
-        ui.button("👥 Pickers", on_click=lambda: ui.open("/pickers")).classes("full-width q-mb-sm")
-        ui.button("🛒 Carts", on_click=lambda: ui.open("/carts")).classes("full-width q-mb-sm")
-        ui.button("📈 Dashboard", on_click=lambda: ui.open("/")).classes("full-width q-mb-sm")
+        ui.button("📋 Orders", on_click=lambda: ui.open("/orders")).classes(
+            "full-width q-mb-sm"
+        )
+        ui.button("👥 Pickers", on_click=lambda: ui.open("/pickers")).classes(
+            "full-width q-mb-sm"
+        )
+        ui.button("🛒 Carts", on_click=lambda: ui.open("/carts")).classes(
+            "full-width q-mb-sm"
+        )
+        ui.button("📈 Dashboard", on_click=lambda: ui.open("/")).classes(
+            "full-width q-mb-sm"
+        )
 
 
 def refresh_data():

@@ -24,7 +24,9 @@ def create_dashboard_view():
             create_statistics_card_component("📦 Total Orders", "0", "bg-blue-100")
             create_statistics_card_component("✅ Completed Orders", "0", "bg-green-100")
             create_statistics_card_component("⏳ Open Orders", "0", "bg-orange-100")
-            create_statistics_card_component("📈 Completion Rate", "0%", "bg-purple-100")
+            create_statistics_card_component(
+                "📈 Completion Rate", "0%", "bg-purple-100"
+            )
 
         # Recent Orders
         with ui.card().classes("full-width q-mt-lg"):

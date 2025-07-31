@@ -35,28 +35,24 @@ class Settings(BaseSettings):
 
     cors_origins: List[str] = Field(
         ["http://localhost:3000", "http://127.0.0.1:3000"],
-        description="Allowed CORS origins"
+        description="Allowed CORS origins",
     )
     cors_allow_credentials: bool = Field(True, description="Allow CORS credentials")
     cors_allow_methods: List[str] = Field(
-        ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-        description="Allowed CORS methods"
+        ["GET", "POST", "PUT", "DELETE", "OPTIONS"], description="Allowed CORS methods"
     )
-    cors_allow_headers: List[str] = Field(
-        ["*"],
-        description="Allowed CORS headers"
-    )
+    cors_allow_headers: List[str] = Field(["*"], description="Allowed CORS headers")
 
     # MARK: ━━━ Logging Settings ━━━
 
     log_level: str = Field("INFO", description="Logging level")
     log_format: str = Field(
-        "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-        description="Log format"
+        "%(asctime)s - %(name)s - %(levelname)s - %(message)s", description="Log format"
     )
 
     class Config:
         """Pydantic configuration."""
+
         env_file = ".env"
         case_sensitive = False
 
@@ -68,27 +64,25 @@ settings = Settings()
 
 # MARK: ━━━ Logging Configuration ━━━
 
+
 def get_logging_config() -> dict:
     """Get logging configuration dictionary."""
     return {
         "version": 1,
         "disable_existing_loggers": False,
         "formatters": {
-            "default": {
-                "format": settings.log_format,
-                "datefmt": "%Y-%m-%d %H:%M:%S"
-            },
+            "default": {"format": settings.log_format, "datefmt": "%Y-%m-%d %H:%M:%S"},
             "detailed": {
                 "format": "%(asctime)s - %(name)s - %(levelname)s - %(funcName)s:%(lineno)d - %(message)s",
-                "datefmt": "%Y-%m-%d %H:%M:%S"
-            }
+                "datefmt": "%Y-%m-%d %H:%M:%S",
+            },
         },
         "handlers": {
             "console": {
                 "class": "logging.StreamHandler",
                 "level": settings.log_level,
                 "formatter": "default",
-                "stream": "ext://sys.stdout"
+                "stream": "ext://sys.stdout",
             },
             "file": {
                 "class": "logging.handlers.RotatingFileHandler",
@@ -96,30 +90,23 @@ def get_logging_config() -> dict:
                 "formatter": "detailed",
                 "filename": "logs/app.log",
                 "maxBytes": 10485760,  # 10MB
-                "backupCount": 5
-            }
+                "backupCount": 5,
+            },
         },
         "loggers": {
             "": {
                 "level": settings.log_level,
                 "handlers": ["console", "file"],
-                "propagate": False
+                "propagate": False,
             },
-            "uvicorn": {
-                "level": "INFO",
-                "handlers": ["console"],
-                "propagate": False
-            },
-            "fastapi": {
-                "level": "INFO",
-                "handlers": ["console"],
-                "propagate": False
-            }
-        }
+            "uvicorn": {"level": "INFO", "handlers": ["console"], "propagate": False},
+            "fastapi": {"level": "INFO", "handlers": ["console"], "propagate": False},
+        },
     }
 
 
 # MARK: ━━━ Utility Functions ━━━
+
 
 def get_data_path() -> str:
     """Get absolute path to data directory."""

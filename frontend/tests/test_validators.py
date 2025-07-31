@@ -15,13 +15,17 @@ Created: 2025-01-28
 import logging
 
 from app.validators.order_validators import validate_project_number, validate_priority
-from app.validators.picker_validators import validate_picker_name, validate_employee_number
+from app.validators.picker_validators import (
+    validate_picker_name,
+    validate_employee_number,
+)
 
 # MARK: ━━━ Logger ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 logger = logging.getLogger(__name__)
 
 
 # MARK: ━━━ Test Cases ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 
 def test_validate_project_number():
     """Test project number validation."""
@@ -69,7 +73,9 @@ def test_validate_picker_name():
     # Invalid names
     assert validate_picker_name("") == "Picker name is required"
     assert validate_picker_name("A") == "Picker name must be at least 2 characters"
-    assert validate_picker_name("A" * 51) == "Picker name must be less than 50 characters"
+    assert (
+        validate_picker_name("A" * 51) == "Picker name must be less than 50 characters"
+    )
 
     logger.info("Picker name validation test passed")
 
@@ -84,10 +90,19 @@ def test_validate_employee_number():
 
     # Invalid employee numbers
     assert validate_employee_number("") == "Employee number is required"
-    assert validate_employee_number("EMP01") == "Employee number must be in format EMP001"
-    assert validate_employee_number("EMP0001") == "Employee number must be in format EMP001"
-    assert validate_employee_number("emp001") == "Employee number must be in format EMP001"
-    assert validate_employee_number("ABC001") == "Employee number must be in format EMP001"
+    assert (
+        validate_employee_number("EMP01") == "Employee number must be in format EMP001"
+    )
+    assert (
+        validate_employee_number("EMP0001")
+        == "Employee number must be in format EMP001"
+    )
+    assert (
+        validate_employee_number("emp001") == "Employee number must be in format EMP001"
+    )
+    assert (
+        validate_employee_number("ABC001") == "Employee number must be in format EMP001"
+    )
 
     logger.info("Employee number validation test passed")
 

@@ -28,7 +28,7 @@ def validate_employee_number(employee_number: str) -> Optional[str]:
     if not employee_number:
         return "Employee number is required"
 
-    if not re.match(r'^EMP\d{3}$', employee_number):
+    if not re.match(r"^EMP\d{3}$", employee_number):
         return "Employee number must be in format EMP001"
 
     return None

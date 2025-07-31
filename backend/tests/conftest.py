@@ -29,6 +29,7 @@ def event_loop():
 
 # MARK: ━━━ Test Clients ━━━
 
+
 @pytest.fixture
 def client():
     """Create a test client for the FastAPI application."""
@@ -44,6 +45,7 @@ async def async_client():
 
 # MARK: ━━━ Service Fixtures ━━━
 
+
 @pytest.fixture
 def logistics_service():
     """Create a logistics service instance for testing."""
@@ -57,6 +59,7 @@ def data_service():
 
 
 # MARK: ━━━ Test Data Fixtures ━━━
+
 
 @pytest.fixture
 def sample_article_data():
@@ -83,7 +86,7 @@ def sample_article_data():
         "position": 578954208,
         "bearbeitungsart": "",
         "vorgang_id": 127099,
-        "anzahl_aktion": 0
+        "anzahl_aktion": 0,
     }
 
 
@@ -115,9 +118,9 @@ def sample_project_data():
                 "position": 578954208,
                 "bearbeitungsart": "",
                 "vorgang_id": 127099,
-                "anzahl_aktion": 0
+                "anzahl_aktion": 0,
             }
-        ]
+        ],
     }
 
 
@@ -128,7 +131,7 @@ def sample_order_data():
         "order_id": "ORDER-054536-001",
         "project_number": "054536",
         "priority": 5,
-        "status": "Offen"
+        "status": "Offen",
     }
 
 
@@ -139,7 +142,7 @@ def sample_picker_data():
         "picker_id": "P001",
         "name": "John Doe",
         "employee_number": "EMP001",
-        "is_active": True
+        "is_active": True,
     }
 
 
@@ -150,7 +153,7 @@ def sample_cart_data():
         "cart_id": "C001",
         "capacity": 100.0,
         "current_weight": 0.0,
-        "is_available": True
+        "is_available": True,
     }
 
 

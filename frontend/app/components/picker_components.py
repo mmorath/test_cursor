@@ -7,7 +7,10 @@ Picker-related UI components.
 
 import logging
 from nicegui import ui
-from ..validators.picker_validators import validate_picker_name, validate_employee_number
+from ..validators.picker_validators import (
+    validate_picker_name,
+    validate_employee_number,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -22,24 +25,32 @@ def create_picker_form_component(on_submit=None):
         name = ui.input(
             "Name",
             validation={
-                'Name is required': lambda value: bool(value),
-                'Must be 2-50 characters': lambda value: validate_picker_name(value) is None
-            }
+                "Name is required": lambda value: bool(value),
+                "Must be 2-50 characters": lambda value: validate_picker_name(value)
+                is None,
+            },
         ).classes("full-width q-mb-md")
 
         employee_number = ui.input(
             "Employee Number",
             validation={
-                'Employee number is required': lambda value: bool(value),
-                'Must be in format EMP001': lambda value: validate_employee_number(value) is None
-            }
+                "Employee number is required": lambda value: bool(value),
+                "Must be in format EMP001": lambda value: validate_employee_number(
+                    value
+                )
+                is None,
+            },
         ).classes("full-width q-mb-md")
 
         with ui.row():
-            ui.button("Cancel", on_click=lambda: ui.close_dialog()).classes("bg-grey-500 q-mr-sm")
+            ui.button("Cancel", on_click=lambda: ui.close_dialog()).classes(
+                "bg-grey-500 q-mr-sm"
+            )
             ui.button(
                 "Add",
-                on_click=lambda: handle_picker_submit(name.value, employee_number.value, on_submit)
+                on_click=lambda: handle_picker_submit(
+                    name.value, employee_number.value, on_submit
+                ),
             ).classes("bg-green-500")
 
 

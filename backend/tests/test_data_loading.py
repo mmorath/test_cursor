@@ -25,13 +25,14 @@ logger = logging.getLogger(__name__)
 
 # MARK: ━━━ Test Cases ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+
 def test_data_service_initialization():
     """Test that DataService can be initialized correctly."""
     logger.info("Testing DataService initialization")
 
     data_service = DataService()
     assert data_service is not None
-    assert hasattr(data_service, 'data_dir')
+    assert hasattr(data_service, "data_dir")
 
 
 def test_csv_data_loading():

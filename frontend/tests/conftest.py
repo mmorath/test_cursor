@@ -25,6 +25,7 @@ def event_loop():
 
 # MARK: ━━━ NiceGUI Test Setup ━━━
 
+
 @pytest.fixture
 def nicegui_app():
     """Create a NiceGUI app instance for testing."""
@@ -35,6 +36,7 @@ def nicegui_app():
 
 # MARK: ━━━ HTTP Client Fixtures ━━━
 
+
 @pytest.fixture
 async def api_client():
     """Create an async HTTP client for API testing."""
@@ -43,6 +45,7 @@ async def api_client():
 
 
 # MARK: ━━━ Test Data Fixtures ━━━
+
 
 @pytest.fixture
 def sample_order_data():
@@ -53,7 +56,7 @@ def sample_order_data():
         "priority": 5,
         "status": "Offen",
         "assigned_picker": None,
-        "completion_percentage": 0.0
+        "completion_percentage": 0.0,
     }
 
 
@@ -65,7 +68,7 @@ def sample_picker_data():
         "name": "John Doe",
         "employee_number": "EMP001",
         "is_active": True,
-        "current_order": None
+        "current_order": None,
     }
 
 
@@ -77,7 +80,7 @@ def sample_cart_data():
         "capacity": 100.0,
         "current_weight": 0.0,
         "is_available": True,
-        "assigned_picker": None
+        "assigned_picker": None,
     }
 
 
@@ -91,7 +94,7 @@ def sample_statistics_data():
         "total_articles": 50,
         "picked_articles": 25,
         "completion_rate": 50.0,
-        "efficiency_score": 75.0
+        "efficiency_score": 75.0,
     }
 
 

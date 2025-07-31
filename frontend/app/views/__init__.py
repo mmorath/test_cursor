@@ -14,7 +14,7 @@ __all__ = [
     "create_dashboard_view",
     "create_orders_view",
     "create_pickers_view",
-    "create_carts_view"
+    "create_carts_view",
 ]
 
 # EOF

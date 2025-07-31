@@ -22,6 +22,7 @@ logger = logging.getLogger(__name__)
 
 # MARK: ━━━ Test Cases ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+
 def test_root_endpoint(client: TestClient) -> None:
     """Test that the root endpoint returns a successful response."""
     logger.info("Testing root endpoint")

@@ -25,6 +25,7 @@ logger = logging.getLogger(__name__)
 
 # MARK: ━━━ Test Cases ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+
 def test_complete_picking_workflow():
     """Test the complete picking workflow from start to finish."""
     logger.info("Testing complete picking workflow")
@@ -44,16 +45,9 @@ def test_complete_picking_workflow():
     # Create test picker and cart
     from app.models import Picker, MaterialCart
 
-    picker = Picker(
-        picker_id="P001",
-        name="Test Picker",
-        employee_number="EMP001"
-    )
+    picker = Picker(picker_id="P001", name="Test Picker", employee_number="EMP001")
 
-    cart = MaterialCart(
-        cart_id="C001",
-        capacity=100.0
-    )
+    cart = MaterialCart(cart_id="C001", capacity=100.0)
 
     logistics_service.pickers.append(picker)
     logistics_service.carts.append(cart)
@@ -67,35 +61,41 @@ def test_complete_picking_workflow():
 
     # Step 1: Assign order to picker
     success = logistics_service.assign_order_to_picker(
-        test_order.order_id,
-        picker.picker_id
+        test_order.order_id, picker.picker_id
     )
     assert success is True, "Order assignment should succeed"
     assert test_order.assigned_picker == picker.picker_id
     assert test_order.status == StatusEnum.IN_BEARBEITUNG
 
     # Step 2: Assign cart to picker
-    success = logistics_service.assign_cart_to_picker(
-        picker.picker_id,
-        cart.cart_id
-    )
+    success = logistics_service.assign_cart_to_picker(picker.picker_id, cart.cart_id)
     assert success is True, "Cart assignment should succeed"
     assert cart.assigned_picker == picker.picker_id
     assert not cart.is_available
 
-    # Step 3: Pick all open articles in the order
-    for article in test_order.project.articles:
+        # Step 3: Pick all open articles in the order
+    # Continue picking until all articles are completed
+    while True:
+        # Find any article that is still open
+        open_article = None
+        for article in test_order.project.articles:
             if article.status == StatusEnum.OFFEN:
-                success = logistics_service.pick_article(
-                    test_order.order_id,
-                    article.artikel,
-                    article.menge,
-                    picker.picker_id
-                )
-                assert success is True, f"Article picking should succeed for {article.artikel}"
-                assert article.status == StatusEnum.ABGESCHLOSSEN
-                assert article.anzahl_auf_wagen == article.menge
-                assert article.kommisionierer == picker.picker_id
+                open_article = article
+                break
+        
+        if not open_article:
+            break  # All articles are picked
+        
+        success = logistics_service.pick_article(
+            test_order.order_id, open_article.artikel,
+            open_article.menge, picker.picker_id
+        )
+        assert (
+            success is True
+        ), f"Article picking should succeed for {open_article.artikel}"
+        assert open_article.status == StatusEnum.ABGESCHLOSSEN
+        assert open_article.anzahl_auf_wagen == open_article.menge
+        assert open_article.kommisionierer == picker.picker_id
 
     # Step 4: Complete order
     success = logistics_service.complete_order(test_order.order_id)
@@ -131,7 +131,9 @@ def test_picking_process_api_integration(client: TestClient):
     test_order_id = "ORDER-054536-001"
     test_picker_id = "P001"
 
-    response = client.post(f"/api/v1/orders/{test_order_id}/assign?picker_id={test_picker_id}")
+    response = client.post(
+        f"/api/v1/orders/{test_order_id}/assign?picker_id={test_picker_id}"
+    )
     # This might fail if order doesn't exist, but we're testing the endpoint structure
     assert response.status_code in [200, 400, 404], "Assignment endpoint should respond"
 

@@ -30,7 +30,7 @@ app = FastAPI(
     description="Warehouse management and picking system API",
     version=settings.app_version,
     docs_url="/docs",
-    redoc_url="/redoc"
+    redoc_url="/redoc",
 )
 
 # Add CORS middleware
@@ -45,6 +45,7 @@ app.add_middleware(
 
 # MARK: ━━━ Global Exception Handler ━━━
 
+
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
     """Global exception handler for unhandled exceptions."""
@@ -56,12 +57,13 @@ async def global_exception_handler(request: Request, exc: Exception):
             status="error",
             message="Internal Server Error",
             details="An unexpected error occurred",
-            code=500
-        ).dict()
+            code=500,
+        ).dict(),
     )
 
 
 # MARK: ━━━ Health Check Endpoints ━━━
+
 
 @app.get("/")
 async def root():
@@ -69,11 +71,7 @@ async def root():
     return BaseResponse(
         status="success",
         message=f"{settings.app_name} API is running",
-        data={
-            "version": settings.app_version,
-            "docs": "/docs",
-            "health": "/health"
-        }
+        data={"version": settings.app_version, "docs": "/docs", "health": "/health"},
     )
 
 
@@ -81,9 +79,7 @@ async def root():
 async def health_check():
     """Health check endpoint."""
     return BaseResponse(
-        status="success",
-        message="System is healthy",
-        data={"status": "operational"}
+        status="success", message="System is healthy", data={"status": "operational"}
     )
 
 
@@ -95,15 +91,18 @@ app.include_router(api_router)
 
 # MARK: ━━━ Startup Event ━━━
 
+
 @app.on_event("startup")
 async def startup_event():
     """Initialize system on startup."""
     logger.info("🚀 Starting %s v%s", settings.app_name, settings.app_version)
-    logger.info("📡 Server will be available at http://%s:%s",
-               settings.host, settings.port)
+    logger.info(
+        "📡 Server will be available at http://%s:%s", settings.host, settings.port
+    )
 
 
 # MARK: ━━━ Shutdown Event ━━━
+
 
 @app.on_event("shutdown")
 async def shutdown_event():

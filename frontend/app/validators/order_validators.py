@@ -14,7 +14,7 @@ def validate_project_number(project_number: str) -> Optional[str]:
     if not project_number:
         return "Project number is required"
 
-    if not re.match(r'^\d{6}$', project_number):
+    if not re.match(r"^\d{6}$", project_number):
         return "Project number must be 6 digits"
 
     return None

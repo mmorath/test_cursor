@@ -12,6 +12,7 @@ from typing import Dict, Any
 # Import settings directly to avoid relative import issues
 import sys
 import os
+
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 from config import settings
 
@@ -22,21 +23,18 @@ def get_logging_config() -> Dict[str, Any]:
         "version": 1,
         "disable_existing_loggers": False,
         "formatters": {
-            "default": {
-                "format": settings.log_format,
-                "datefmt": "%Y-%m-%d %H:%M:%S"
-            },
+            "default": {"format": settings.log_format, "datefmt": "%Y-%m-%d %H:%M:%S"},
             "detailed": {
                 "format": "%(asctime)s - %(name)s - %(levelname)s - %(funcName)s:%(lineno)d - %(message)s",
-                "datefmt": "%Y-%m-%d %H:%M:%S"
-            }
+                "datefmt": "%Y-%m-%d %H:%M:%S",
+            },
         },
         "handlers": {
             "console": {
                 "class": "logging.StreamHandler",
                 "level": settings.log_level,
                 "formatter": "default",
-                "stream": "ext://sys.stdout"
+                "stream": "ext://sys.stdout",
             },
             "file": {
                 "class": "logging.handlers.RotatingFileHandler",
@@ -44,21 +42,17 @@ def get_logging_config() -> Dict[str, Any]:
                 "formatter": "detailed",
                 "filename": "logs/frontend.log",
                 "maxBytes": 10485760,  # 10MB
-                "backupCount": 5
-            }
+                "backupCount": 5,
+            },
         },
         "loggers": {
             "": {
                 "level": settings.log_level,
                 "handlers": ["console", "file"],
-                "propagate": False
+                "propagate": False,
             },
-            "nicegui": {
-                "level": "INFO",
-                "handlers": ["console"],
-                "propagate": False
-            }
-        }
+            "nicegui": {"level": "INFO", "handlers": ["console"], "propagate": False},
+        },
     }
 
 

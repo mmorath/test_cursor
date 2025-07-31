@@ -38,9 +38,9 @@ class DataService:
 
         try:
             logger.info(f"Loading CSV data from {filename}")
-            df = pd.read_csv(file_path, sep='|', skipinitialspace=True)
+            df = pd.read_csv(file_path, sep="|", skipinitialspace=True)
             df.columns = df.columns.str.strip()
-            data = df.to_dict('records')
+            data = df.to_dict("records")
             logger.info(f"Loaded {len(data)} records from {filename}")
             return data
         except Exception as e:
@@ -55,8 +55,9 @@ class DataService:
 
         try:
             logger.info(f"Loading JSON data from {filename}")
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, "r", encoding="utf-8") as f:
                 import json
+
                 data = json.load(f)
             logger.info(f"Loaded JSON data from {filename}")
             return data
@@ -86,7 +87,7 @@ class DataService:
         raw_data = self.load_json_data(filename)
         projects = []
 
-        for project_data in raw_data.get('projects', []):
+        for project_data in raw_data.get("projects", []):
             try:
                 project = self._create_project_from_data(project_data)
                 projects.append(project)
@@ -102,16 +103,15 @@ class DataService:
         cleaned = {}
 
         # Handle weight conversion (comma to dot)
-        if 'gewicht' in row:
-            weight_str = str(row['gewicht']).replace(',', '.')
+        if "gewicht" in row:
+            weight_str = str(row["gewicht"]).replace(",", ".")
             try:
-                cleaned['gewicht'] = float(weight_str)
+                cleaned["gewicht"] = float(weight_str)
             except ValueError:
-                cleaned['gewicht'] = 0.0
+                cleaned["gewicht"] = 0.0
 
         # Handle numeric fields
-        numeric_fields = ['menge', 'bestand', 'position', 'vorgang_id',
-                         'anzahl_aktion']
+        numeric_fields = ["menge", "bestand", "position", "vorgang_id", "anzahl_aktion"]
         for field in numeric_fields:
             if field in row:
                 try:
@@ -120,8 +120,7 @@ class DataService:
                     cleaned[field] = 0
 
         # Handle optional fields
-        optional_fields = ['anzahl_auf_wagen', 'anzahl_fehlt',
-                          'anzahl_beschaedigt']
+        optional_fields = ["anzahl_auf_wagen", "anzahl_fehlt", "anzahl_beschaedigt"]
         for field in optional_fields:
             if field in row and row[field]:
                 try:
@@ -132,12 +131,26 @@ class DataService:
                 cleaned[field] = None
 
         # Handle string fields
-        string_fields = ['projekt_nr', 'abteilungsgruppe', 'kostenstelle',
-                        'baugruppe', 'artikel', 'artikel_bezeichnung',
-                        'einheit', 'lagerplatz', 'filter', 'wohin', 'lz',
-                        'lager_1_stueckliste', 'lager_2_bedarfslager',
-                        'lager_3_referenzen', 'status', 'bearbeitungsart',
-                        'kommisionierer', 'materialwagen']
+        string_fields = [
+            "projekt_nr",
+            "abteilungsgruppe",
+            "kostenstelle",
+            "baugruppe",
+            "artikel",
+            "artikel_bezeichnung",
+            "einheit",
+            "lagerplatz",
+            "filter",
+            "wohin",
+            "lz",
+            "lager_1_stueckliste",
+            "lager_2_bedarfslager",
+            "lager_3_referenzen",
+            "status",
+            "bearbeitungsart",
+            "kommisionierer",
+            "materialwagen",
+        ]
 
         for field in string_fields:
             if field in row:
@@ -151,7 +164,7 @@ class DataService:
         """Create Project object from project data."""
         articles = []
 
-        for article_data in project_data.get('articles', []):
+        for article_data in project_data.get("articles", []):
             try:
                 article = Article(**article_data)
                 articles.append(article)
@@ -159,10 +172,7 @@ class DataService:
                 logger.warning(f"Failed to parse article in project: {e}")
                 continue
 
-        return Project(
-            projekt_nr=project_data['projekt_nr'],
-            articles=articles
-        )
+        return Project(projekt_nr=project_data["projekt_nr"], articles=articles)
 
     def create_picking_orders(self, projects: List[Project]) -> List[PickingOrder]:
         """Create picking orders from projects."""
@@ -174,7 +184,7 @@ class DataService:
             order = PickingOrder(
                 order_id=order_id,
                 project=project,
-                priority=self._calculate_priority(project)
+                priority=self._calculate_priority(project),
             )
 
             orders.append(order)
@@ -193,30 +203,34 @@ class DataService:
     def validate_data_consistency(self, articles: List[Article]) -> Dict[str, Any]:
         """Validate data consistency and return validation report."""
         report = {
-            'total_articles': len(articles),
-            'valid_articles': 0,
-            'invalid_articles': 0,
-            'missing_stock': 0,
-            'weight_issues': 0,
-            'status_distribution': {},
-            'project_distribution': {}
+            "total_articles": len(articles),
+            "valid_articles": 0,
+            "invalid_articles": 0,
+            "missing_stock": 0,
+            "weight_issues": 0,
+            "status_distribution": {},
+            "project_distribution": {},
         }
 
         for article in articles:
             # Articles are already validated when created
-            report['valid_articles'] += 1
+            report["valid_articles"] += 1
 
             if not article.is_available:
-                report['missing_stock'] += 1
+                report["missing_stock"] += 1
 
             if article.gewicht <= 0:
-                report['weight_issues'] += 1
+                report["weight_issues"] += 1
 
             status = article.status.value
-            report['status_distribution'][status] = report['status_distribution'].get(status, 0) + 1
+            report["status_distribution"][status] = (
+                report["status_distribution"].get(status, 0) + 1
+            )
 
             project = article.projekt_nr
-            report['project_distribution'][project] = report['project_distribution'].get(project, 0) + 1
+            report["project_distribution"][project] = (
+                report["project_distribution"].get(project, 0) + 1
+            )
 
         logger.info(f"Data validation completed: {report}")
         return report

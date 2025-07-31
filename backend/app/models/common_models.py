@@ -12,6 +12,7 @@ from pydantic import BaseModel, Field
 
 class StatusEnum(str, Enum):
     """Order and article status enumeration."""
+
     OFFEN = "Offen"
     IN_BEARBEITUNG = "In Bearbeitung"
     ABGESCHLOSSEN = "Abgeschlossen"
@@ -20,6 +21,7 @@ class StatusEnum(str, Enum):
 
 class BaseResponse(BaseModel):
     """Standard API response format."""
+
     status: str = Field(..., description="Response status")
     message: str = Field(..., description="Response message")
     data: Optional[Dict[str, Any]] = Field(None, description="Response data")
@@ -27,6 +29,7 @@ class BaseResponse(BaseModel):
 
 class ErrorResponse(BaseModel):
     """Standard error response format."""
+
     status: str = Field("error", description="Error status")
     message: str = Field(..., description="Error message")
     details: Optional[str] = Field(None, description="Error details")
@@ -35,12 +38,14 @@ class ErrorResponse(BaseModel):
 
 class PaginationParams(BaseModel):
     """Pagination parameters for list endpoints."""
+
     page: int = Field(1, ge=1, description="Page number")
     size: int = Field(10, ge=1, le=100, description="Page size")
 
 
 class PaginationResponse(BaseModel):
     """Pagination response metadata."""
+
     page: int = Field(..., description="Current page")
     size: int = Field(..., description="Page size")
     total: int = Field(..., description="Total items")

@@ -20,10 +20,13 @@ logger = get_logger(__name__)
 
 # MARK: ━━━ Application Initialization ━━━
 
+
 def initialize_application():
     """Initialize the frontend application."""
     logger.info("🚀 Starting Logistics Management System Frontend")
-    logger.info(f"📡 Frontend will be available at http://{settings.host}:{settings.port}")
+    logger.info(
+        f"📡 Frontend will be available at http://{settings.host}:{settings.port}"
+    )
 
     # Setup routes
     setup_routes()
@@ -41,7 +44,7 @@ if __name__ in {"__main__", "__mp_main__"}:
         port=settings.port,
         host=settings.host,
         reload=settings.debug,
-        show=True
+        show=True,
     )
 
 # EOF

@@ -22,16 +22,15 @@ def create_cart_form_component(on_submit=None):
             "Capacity (kg)",
             min=0,
             value=100,
-            validation={
-                'Capacity must be positive': lambda value: value > 0
-            }
+            validation={"Capacity must be positive": lambda value: value > 0},
         ).classes("full-width q-mb-md")
 
         with ui.row():
-            ui.button("Cancel", on_click=lambda: ui.close_dialog()).classes("bg-grey-500 q-mr-sm")
+            ui.button("Cancel", on_click=lambda: ui.close_dialog()).classes(
+                "bg-grey-500 q-mr-sm"
+            )
             ui.button(
-                "Add",
-                on_click=lambda: handle_cart_submit(capacity.value, on_submit)
+                "Add", on_click=lambda: handle_cart_submit(capacity.value, on_submit)
             ).classes("bg-green-500")
 
 

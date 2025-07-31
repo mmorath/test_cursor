@@ -25,6 +25,7 @@ logger = logging.getLogger(__name__)
 
 # MARK: ━━━ Test Cases ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+
 def test_dashboard_view_creation():
     """Test that dashboard view can be created."""
     logger.info("Testing dashboard view creation")

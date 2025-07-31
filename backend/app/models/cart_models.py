@@ -11,6 +11,7 @@ from pydantic import BaseModel, Field
 
 class MaterialCart(BaseModel):
     """Model for material cart."""
+
     cart_id: str = Field(..., description="Unique cart ID")
     assigned_picker: Optional[str] = Field(None, description="Assigned picker")
     current_order: Optional[str] = Field(None, description="Current order ID")
@@ -33,11 +34,13 @@ class MaterialCart(BaseModel):
 
 class CartCreate(BaseModel):
     """Model for creating a new cart."""
+
     capacity: float = Field(..., ge=0, description="Weight capacity")
 
 
 class CartResponse(BaseModel):
     """Cart response model."""
+
     cart_id: str = Field(..., description="Cart ID")
     assigned_picker: Optional[str] = Field(None, description="Assigned picker")
     current_order: Optional[str] = Field(None, description="Current order ID")
