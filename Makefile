@@ -29,8 +29,8 @@ FRONTEND_PYTEST = $(FRONTEND_VENV)/bin/pytest
 .PHONY: install
 install: setup-environments
 	@echo "📦 Installing dependencies..."
-	cd $(BACKEND_DIR) && $(BACKEND_PIP) install -r requirements.txt
-	cd $(FRONTEND_DIR) && $(FRONTEND_PIP) install -r requirements.txt
+	cd $(BACKEND_DIR) && .venv/bin/pip install -r requirements.txt
+	cd $(FRONTEND_DIR) && .venv/bin/pip install -r requirements.txt
 	@echo "✅ Dependencies installed"
 
 .PHONY: setup-environments
@@ -73,8 +73,8 @@ update-requirements: setup-environments
 .PHONY: install-dev
 install-dev: setup-environments
 	@echo "📦 Installing development dependencies..."
-	$(BACKEND_PIP) install pytest pytest-cov pytest-asyncio httpx black flake8 mypy bandit
-	$(FRONTEND_PIP) install pytest pytest-cov pytest-asyncio httpx black flake8 mypy bandit
+	cd $(BACKEND_DIR) && .venv/bin/pip install pytest pytest-cov pytest-asyncio httpx black flake8 mypy bandit
+	cd $(FRONTEND_DIR) && .venv/bin/pip install pytest pytest-cov pytest-asyncio httpx black flake8 mypy bandit
 	@echo "✅ Development dependencies installed"
 
 # MARK: ━━━ Testing Commands ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -86,13 +86,13 @@ test: test-backend test-frontend test-integration
 .PHONY: test-backend
 test-backend: install
 	@echo "🧪 Running backend tests..."
-	cd $(BACKEND_DIR) && $(BACKEND_PYTEST)
+	cd $(BACKEND_DIR) && .venv/bin/pytest
 	@echo "✅ Backend tests completed"
 
 .PHONY: test-frontend
 test-frontend: install
 	@echo "🎨 Running frontend tests..."
-	cd $(FRONTEND_DIR) && $(FRONTEND_PYTEST) --tb=short
+	cd $(FRONTEND_DIR) && .venv/bin/pytest --tb=short
 	@echo "✅ Frontend tests completed"
 
 .PHONY: test-integration
@@ -104,8 +104,8 @@ test-integration:
 .PHONY: test-quick
 test-quick: install
 	@echo "⚡ Running quick tests..."
-	cd $(BACKEND_DIR) && $(BACKEND_PYTEST) -x --tb=short
-	cd $(FRONTEND_DIR) && $(FRONTEND_PYTEST) -x --tb=short
+	cd $(BACKEND_DIR) && .venv/bin/pytest -x --tb=short
+	cd $(FRONTEND_DIR) && .venv/bin/pytest -x --tb=short
 	@echo "✅ Quick tests completed"
 
 # MARK: ━━━ Code Quality Commands ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -149,7 +149,7 @@ quality: lint format-check type-check security
 .PHONY: run-backend
 run-backend: install
 	@echo "🔧 Starting backend server..."
-	cd $(BACKEND_DIR) && $(BACKEND_PYTHON) -m uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+	cd $(BACKEND_DIR) && .venv/bin/python -m uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 
 .PHONY: run-frontend
 run-frontend: install
