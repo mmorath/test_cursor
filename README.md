@@ -46,6 +46,30 @@ logistics-system/
 
 ### Installation
 
+This project follows the Python environment specification (`docs/codex/spec.env.python.md`) with dedicated virtual environments for each service and pip-tools for dependency management.
+
+#### Option 1: Automated Setup (Recommended)
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd logistics-system
+   ```
+
+2. **Set up backend environment**
+   ```bash
+   cd backend
+   ./setup_venv.sh
+   ```
+
+3. **Set up frontend environment**
+   ```bash
+   cd ../frontend
+   ./setup_venv.sh
+   ```
+
+#### Option 2: Manual Setup
+
 1. **Clone the repository**
    ```bash
    git clone <repository-url>
@@ -55,18 +79,29 @@ logistics-system/
 2. **Set up backend**
    ```bash
    cd backend
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   python3 -m venv .venv
+   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+   pip install pip-tools
+   pip-compile requirements.in
    pip install -r requirements.txt
    ```
 
 3. **Set up frontend**
    ```bash
    cd ../frontend
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   python3 -m venv .venv
+   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+   pip install pip-tools
+   pip-compile requirements.in
    pip install -r requirements.txt
    ```
+
+#### Dependency Management
+
+- **requirements.in**: Source of truth for dependencies (unpinned)
+- **requirements.txt**: Auto-generated with pinned versions
+- **Update dependencies**: `make update-requirements`
+- **Compile requirements**: `make compile-requirements`
 
 ### Running the Application
 

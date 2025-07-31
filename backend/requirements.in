@@ -1,0 +1,34 @@
+# Backend dependencies for Logistics Management System
+
+# FastAPI and server
+fastapi
+uvicorn[standard]
+
+# Data validation and serialization
+pydantic
+pydantic-settings
+
+# Data processing
+pandas
+
+# HTTP client for testing
+httpx
+
+# CORS middleware
+python-multipart
+
+# Environment variables
+python-dotenv
+
+# Testing
+pytest
+pytest-asyncio
+pytest-cov
+
+# Code quality
+black
+flake8
+mypy
+
+# Logging
+structlog 
