@@ -13,8 +13,6 @@ Created: 2025-01-28
 
 # MARK: ━━━ Imports ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 import logging
-import pytest
-from pathlib import Path
 
 from app.services.data_service import DataService
 from app.models import Article, Project

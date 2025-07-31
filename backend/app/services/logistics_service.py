@@ -100,7 +100,9 @@ class LogisticsService:
 
         if quantity > article.menge:
             logger.warning(
-                f"Picking quantity {quantity} exceeds required {article.menge}"
+                "Picking quantity %d exceeds required %d",
+                quantity,
+                article.menge,
             )
             return False
 

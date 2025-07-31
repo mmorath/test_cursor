@@ -68,12 +68,5 @@ class ProjectResponse(BaseModel):
         ..., description="Completion percentage"
     )
 
-    @property
-    def completion_percentage(self) -> float:
-        """Calculate completion percentage."""
-        if self.total_articles == 0:
-            return 0.0
-        return (self.completed_articles / self.total_articles) * 100
-
 
 # EOF

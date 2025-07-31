@@ -4,11 +4,15 @@
 """
 Logistics Management System - Frontend
 
-A comprehensive warehouse management and picking system frontend built with NiceGUI.
+A comprehensive warehouse management and picking system frontend
+built with NiceGUI.
 """
 
 __version__ = "1.0.0"
 __author__ = "Matthias Morath"
-__description__ = "Warehouse Management and Picking System Frontend"
+__description__ = (
+    "Warehouse Management and Picking System "
+    "Frontend"
+)
 
 # EOF

@@ -12,13 +12,11 @@ Author: Matthias Morath
 """
 
 import logging
-from typing import List, Optional
 from fastapi import APIRouter, HTTPException, status, Request, Query
 from fastapi.responses import JSONResponse
 
 from app.models import (
     OrderResponse,
-    OrderList,
     BaseResponse,
     ErrorResponse,
     PaginationParams,
@@ -173,7 +171,9 @@ async def assign_order(order_id: str, picker_id: str, request: Request):
                 content=ErrorResponse(
                     status="error",
                     message="Failed to assign order",
-                    details="Order or picker not found, or assignment not possible",
+                    details=(
+                        "Order or picker not found, or assignment not possible"
+                    ),
                     code=400,
                 ).dict(),
             )

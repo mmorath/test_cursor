@@ -145,7 +145,9 @@ def test_picking_process_api_integration(client: TestClient):
         200,
         400,
         404,
-    ], "Assignment endpoint should respond"
+    ], (
+        "Assignment endpoint should respond"
+    )
 
     logger.info("API integration test completed")
 

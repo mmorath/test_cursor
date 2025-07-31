@@ -84,7 +84,10 @@ def get_logging_config() -> dict:
                 "datefmt": "%Y-%m-%d %H:%M:%S",
             },
             "detailed": {
-                "format": "%(asctime)s - %(name)s - %(levelname)s - %(funcName)s:%(lineno)d - %(message)s",
+                "format": (
+                    "%(asctime)s - %(name)s - %(levelname)s - "
+                    "%(funcName)s:%(lineno)d - %(message)s"
+                ),
                 "datefmt": "%Y-%m-%d %H:%M:%S",
             },
         },

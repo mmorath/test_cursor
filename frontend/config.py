@@ -5,8 +5,6 @@
 Configuration management for the frontend application.
 """
 
-import os
-from typing import List
 from pydantic_settings import BaseSettings
 from pydantic import Field
 
@@ -73,7 +71,10 @@ def get_logging_config() -> dict:
                 "datefmt": "%Y-%m-%d %H:%M:%S",
             },
             "detailed": {
-                "format": "%(asctime)s - %(name)s - %(levelname)s - %(funcName)s:%(lineno)d - %(message)s",
+                "format": (
+                    "%(asctime)s - %(name)s - %(levelname)s - "
+                    "%(funcName)s:%(lineno)d - %(message)s"
+                ),
                 "datefmt": "%Y-%m-%d %H:%M:%S",
             },
         },

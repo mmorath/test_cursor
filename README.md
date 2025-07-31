@@ -108,7 +108,7 @@ This project follows the Python environment specification (`docs/codex/spec.env.
 1. **Start the backend server**
    ```bash
    cd backend
-   source venv/bin/activate
+   source .venv/bin/activate
    uvicorn main:app --host 0.0.0.0 --port 8000 --reload
    ```
 
@@ -120,7 +120,7 @@ This project follows the Python environment specification (`docs/codex/spec.env.
 2. **Start the frontend**
    ```bash
    cd frontend
-   source venv/bin/activate
+   source .venv/bin/activate
    python main.py
    ```
 

@@ -13,7 +13,6 @@ Created: 2025-01-28
 
 # MARK: ━━━ Imports ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 import logging
-from nicegui import ui
 
 from app.components.order_components import create_order_form_component
 from app.components.picker_components import create_picker_form_component

@@ -9,7 +9,7 @@ pydantic
 pydantic-settings
 
 # Data processing
-pandas
+pandas>=2.2.0
 
 # HTTP client for testing
 httpx

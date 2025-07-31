@@ -12,33 +12,69 @@ BACKEND_DIR = backend
 FRONTEND_DIR = frontend
 TEST_DIR = tests
 
+# Virtual environment paths
+BACKEND_VENV = $(BACKEND_DIR)/.venv
+FRONTEND_VENV = $(FRONTEND_DIR)/.venv
+
+# Virtual environment executables
+BACKEND_PYTHON = $(BACKEND_VENV)/bin/python
+FRONTEND_PYTHON = $(FRONTEND_VENV)/bin/python
+BACKEND_PIP = $(BACKEND_VENV)/bin/pip
+FRONTEND_PIP = $(FRONTEND_VENV)/bin/pip
+BACKEND_PYTEST = $(BACKEND_VENV)/bin/pytest
+FRONTEND_PYTEST = $(FRONTEND_VENV)/bin/pytest
+
 # MARK: ━━━ Development Commands ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 .PHONY: install
-install:
+install: setup-environments
 	@echo "📦 Installing dependencies..."
-	cd $(BACKEND_DIR) && $(PIP) install -r requirements.txt
-	cd $(FRONTEND_DIR) && $(PIP) install -r requirements.txt
+	cd $(BACKEND_DIR) && $(BACKEND_PIP) install -r requirements.txt
+	cd $(FRONTEND_DIR) && $(FRONTEND_PIP) install -r requirements.txt
 	@echo "✅ Dependencies installed"
 
+.PHONY: setup-environments
+setup-environments:
+	@echo "🔧 Setting up virtual environments..."
+	@if [ ! -d "$(BACKEND_VENV)" ]; then \
+		echo "📦 Creating backend virtual environment..."; \
+		cd $(BACKEND_DIR) && $(PYTHON) -m venv .venv; \
+	fi
+	@if [ ! -d "$(FRONTEND_VENV)" ]; then \
+		echo "📦 Creating frontend virtual environment..."; \
+		cd $(FRONTEND_DIR) && $(PYTHON) -m venv .venv; \
+	fi
+	@echo "✅ Virtual environments ready"
+
+.PHONY: activate-backend
+activate-backend:
+	@echo "🔧 To activate backend environment, run:"
+	@echo "   cd $(BACKEND_DIR) && source .venv/bin/activate"
+
+.PHONY: activate-frontend
+activate-frontend:
+	@echo "🔧 To activate frontend environment, run:"
+	@echo "   cd $(FRONTEND_DIR) && source .venv/bin/activate"
+
 .PHONY: compile-requirements
-compile-requirements:
+compile-requirements: setup-environments
 	@echo "🔧 Compiling requirements from .in files..."
-	cd $(BACKEND_DIR) && pip-compile requirements.in
-	cd $(FRONTEND_DIR) && pip-compile requirements.in
+	cd $(BACKEND_DIR) && .venv/bin/pip install pip-tools && .venv/bin/pip-compile requirements.in
+	cd $(FRONTEND_DIR) && .venv/bin/pip install pip-tools && .venv/bin/pip-compile requirements.in
 	@echo "✅ Requirements compiled"
 
 .PHONY: update-requirements
-update-requirements:
+update-requirements: setup-environments
 	@echo "🔄 Updating requirements..."
-	cd $(BACKEND_DIR) && pip-compile --upgrade requirements.in
-	cd $(FRONTEND_DIR) && pip-compile --upgrade requirements.in
+	cd $(BACKEND_DIR) && $(BACKEND_PIP) install pip-tools && pip-compile --upgrade requirements.in
+	cd $(FRONTEND_DIR) && $(FRONTEND_PIP) install pip-tools && pip-compile --upgrade requirements.in
 	@echo "✅ Requirements updated"
 
 .PHONY: install-dev
-install-dev:
+install-dev: setup-environments
 	@echo "📦 Installing development dependencies..."
-	$(PIP) install pytest pytest-cov pytest-asyncio httpx black flake8 mypy bandit
+	$(BACKEND_PIP) install pytest pytest-cov pytest-asyncio httpx black flake8 mypy bandit
+	$(FRONTEND_PIP) install pytest pytest-cov pytest-asyncio httpx black flake8 mypy bandit
 	@echo "✅ Development dependencies installed"
 
 # MARK: ━━━ Testing Commands ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -48,15 +84,15 @@ test: test-backend test-frontend test-integration
 	@echo "🎉 All tests completed!"
 
 .PHONY: test-backend
-test-backend:
+test-backend: install
 	@echo "🧪 Running backend tests..."
-	cd $(BACKEND_DIR) && $(PYTEST)
+	cd $(BACKEND_DIR) && $(BACKEND_PYTEST)
 	@echo "✅ Backend tests completed"
 
 .PHONY: test-frontend
-test-frontend:
+test-frontend: install
 	@echo "🎨 Running frontend tests..."
-	cd $(FRONTEND_DIR) && $(PYTEST) --tb=short
+	cd $(FRONTEND_DIR) && $(FRONTEND_PYTEST) --tb=short
 	@echo "✅ Frontend tests completed"
 
 .PHONY: test-integration
@@ -66,10 +102,10 @@ test-integration:
 	@echo "✅ Integration tests completed"
 
 .PHONY: test-quick
-test-quick:
+test-quick: install
 	@echo "⚡ Running quick tests..."
-	cd $(BACKEND_DIR) && $(PYTEST) -x --tb=short
-	cd $(FRONTEND_DIR) && $(PYTEST) -x --tb=short
+	cd $(BACKEND_DIR) && $(BACKEND_PYTEST) -x --tb=short
+	cd $(FRONTEND_DIR) && $(FRONTEND_PYTEST) -x --tb=short
 	@echo "✅ Quick tests completed"
 
 # MARK: ━━━ Code Quality Commands ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -77,7 +113,7 @@ test-quick:
 .PHONY: lint
 lint:
 	@echo "🔍 Running linting checks..."
-	flake8 $(BACKEND_DIR) $(FRONTEND_DIR) --max-line-length=79 --extend-ignore=E203,W503
+	flake8 $(BACKEND_DIR) $(FRONTEND_DIR) --max-line-length=79 --extend-ignore=E203,W503 --exclude=.venv,__pycache__,.git
 	@echo "✅ Linting completed"
 
 .PHONY: format
@@ -111,14 +147,14 @@ quality: lint format-check type-check security
 # MARK: ━━━ Server Commands ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 .PHONY: run-backend
-run-backend:
+run-backend: install
 	@echo "🔧 Starting backend server..."
-	cd $(BACKEND_DIR) && $(PYTHON) -m uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+	cd $(BACKEND_DIR) && $(BACKEND_PYTHON) -m uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 
 .PHONY: run-frontend
-run-frontend:
+run-frontend: install
 	@echo "🎨 Starting frontend server..."
-	cd $(FRONTEND_DIR) && $(PYTHON) main.py
+	cd $(FRONTEND_DIR) && $(FRONTEND_PYTHON) main.py
 
 .PHONY: run
 run:
@@ -189,8 +225,11 @@ help:
 	@echo "Development:"
 	@echo "  install        Install all dependencies"
 	@echo "  install-dev    Install development dependencies"
+	@echo "  setup-environments Create virtual environments"
 	@echo "  compile-requirements Compile requirements from .in files"
 	@echo "  update-requirements Update requirements to latest versions"
+	@echo "  activate-backend Show backend activation command"
+	@echo "  activate-frontend Show frontend activation command"
 	@echo ""
 	@echo "Testing:"
 	@echo "  test           Run all tests"

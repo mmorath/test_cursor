@@ -6,7 +6,6 @@ Main entry point for the frontend application.
 Only initialization, no business logic.
 """
 
-import logging
 from nicegui import ui
 
 from app.logger import initialize_logging, get_logger

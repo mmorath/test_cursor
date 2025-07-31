@@ -38,10 +38,9 @@ def create_picker_form_component(on_submit=None):
             "Employee Number",
             validation={
                 "Employee number is required": lambda value: bool(value),
-                "Must be in format EMP001": lambda value: validate_employee_number(
-                    value
-                )
-                is None,
+                "Must be in format EMP001": lambda value: (
+                    validate_employee_number(value) is None
+                ),
             },
         ).classes("full-width q-mb-md")
 

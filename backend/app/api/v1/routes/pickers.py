@@ -6,10 +6,7 @@ Pickers API routes for the logistics management system.
 """
 
 import logging
-from typing import List, Optional
 from fastapi import APIRouter, HTTPException, status, Request
-from fastapi.responses import JSONResponse
-
 from app.models import PickerResponse, BaseResponse, ErrorResponse
 from app.services.logistics_service import LogisticsService
 
