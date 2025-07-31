@@ -182,10 +182,10 @@ from typing import Optional
 
 class {{ class_name }}(BaseModel):
     """{{ description }}."""
-    
+
     name: str = Field(..., description="{{ field_description }}")
     label: str = Field(..., description="Display label")
-    
+
     class Config:
         json_schema_extra = {
             "example": {
@@ -206,7 +206,7 @@ def init_logging(config_path: str = "{{ config_path }}"):
     try:
         with open(config_path, 'r') as f:
             config = json.load(f)
-        
+
         logging.basicConfig(
             level=getattr(logging, config.get('level', 'INFO')),
             format='{{ log_format }}',
@@ -215,7 +215,7 @@ def init_logging(config_path: str = "{{ config_path }}"):
                 logging.FileHandler(config.get('file', 'app.log'))
             ]
         )
-        
+
         return True
     except Exception as e:
         print(f"Error initializing logging: {e}")
@@ -233,11 +233,11 @@ def {{ validation_name }}(value: str) -> Tuple[bool, Optional[str]]:
         # Add your validation logic here
         if not value:
             return False, "Value is required"
-        
+
         # Example validation
         if not re.match(r'^[a-zA-Z0-9]+$', value):
             return False, "Invalid format"
-        
+
         return True, None
     except Exception as e:
         return False, f"Validation error: {e}"
@@ -255,7 +255,7 @@ def {{ function_name }}(*args, **kwargs) -> Optional[Any]:
     try:
         # Add your utility logic here
         result = None
-        
+
         logger.info(f"{{ function_name }} completed successfully")
         return result
     except Exception as e:
@@ -279,10 +279,10 @@ def {{ function }}(config_file: str = "{{ config_file }}") -> Optional[Dict[str,
         if not config_path.exists():
             logger.error(f"Configuration file not found: {config_file}")
             return None
-        
+
         with open(config_path, 'r') as f:
             config = json.load(f)
-        
+
         logger.info(f"Loaded {{ label }} from {config_file}")
         return config
     except Exception as e:

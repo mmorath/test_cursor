@@ -22,13 +22,13 @@ graph TB
         B --> E[Inventory Service]
         B --> F[Payment Service]
         B --> G[Notification Service]
-        
+
         C --> H[(PostgreSQL)]
         D --> I[(MongoDB)]
         E --> J[(Redis)]
         F --> K[(PostgreSQL)]
         G --> L[(RabbitMQ)]
-        
+
         M[Monitoring Stack] --> C
         M --> D
         M --> E
@@ -588,4 +588,4 @@ kubectl get pvc
 
 ---
 
-**This deployment guide provides a comprehensive approach to deploying the Microservice Platform across different environments, ensuring reliability, scalability, and maintainability.** 
+**This deployment guide provides a comprehensive approach to deploying the Microservice Platform across different environments, ensuring reliability, scalability, and maintainability.**

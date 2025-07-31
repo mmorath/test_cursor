@@ -509,4 +509,4 @@ spec:
 
 ---
 
-**The User Service provides the foundation for user identity and access management across the microservice platform, ensuring secure and scalable user operations.** 
+**The User Service provides the foundation for user identity and access management across the microservice platform, ensuring secure and scalable user operations.**

@@ -101,21 +101,21 @@ http_requests_total{method="POST",endpoint="/api/v1/orders",status="201"} 567
 ```python
 class AuthMiddleware:
     """JWT token validation middleware."""
-    
+
     async def __call__(self, request: Request, call_next):
         # Skip authentication for public endpoints
         if self.is_public_endpoint(request.url.path):
             return await call_next(request)
-        
+
         # Extract and validate JWT token
         token = self.extract_token(request)
         if not token:
             raise HTTPException(status_code=401, detail="Missing token")
-        
+
         # Validate token with user service
         user = await self.validate_token(token)
         request.state.user = user
-        
+
         return await call_next(request)
 ```
 
@@ -123,7 +123,7 @@ class AuthMiddleware:
 ```python
 class RateLimiter:
     """Redis-based rate limiting."""
-    
+
     def __init__(self, redis_client: Redis):
         self.redis = redis_client
         self.limits = {
@@ -131,16 +131,16 @@ class RateLimiter:
             "unauthenticated": {"requests": 100, "window": 3600},  # 100 req/hour
             "api_key": {"requests": 10000, "window": 3600},  # 10000 req/hour
         }
-    
+
     async def check_rate_limit(self, client_id: str, limit_type: str):
         """Check if request is within rate limits."""
         key = f"rate_limit:{client_id}:{limit_type}"
         limit = self.limits[limit_type]
-        
+
         current = await self.redis.incr(key)
         if current == 1:
             await self.redis.expire(key, limit["window"])
-        
+
         if current > limit["requests"]:
             raise HTTPException(status_code=429, detail="Rate limit exceeded")
 ```
@@ -151,20 +151,20 @@ class RateLimiter:
 ```python
 class RequestTransformer:
     """Transform incoming requests."""
-    
+
     async def transform_request(self, request: Request):
         # Add correlation ID for tracing
         correlation_id = str(uuid.uuid4())
         request.headers["X-Correlation-ID"] = correlation_id
-        
+
         # Add user context
         if hasattr(request.state, "user"):
             request.headers["X-User-ID"] = str(request.state.user.id)
             request.headers["X-User-Roles"] = ",".join(request.state.user.roles)
-        
+
         # Log request
         await self.log_request(request)
-        
+
         return request
 ```
 
@@ -172,18 +172,18 @@ class RequestTransformer:
 ```python
 class ResponseTransformer:
     """Transform outgoing responses."""
-    
+
     async def transform_response(self, response: Response):
         # Add security headers
         response.headers["X-Content-Type-Options"] = "nosniff"
         response.headers["X-Frame-Options"] = "DENY"
         response.headers["X-XSS-Protection"] = "1; mode=block"
-        
+
         # Add CORS headers
         response.headers["Access-Control-Allow-Origin"] = "*"
         response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
         response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
-        
+
         return response
 ```
 
@@ -193,7 +193,7 @@ class ResponseTransformer:
 ```python
 class ServiceRegistry:
     """Service discovery and health checking."""
-    
+
     def __init__(self):
         self.services = {
             "user-service": ["user-service-1:8001", "user-service-2:8001"],
@@ -201,18 +201,18 @@ class ServiceRegistry:
             "inventory-service": ["inventory-service-1:8003", "inventory-service-2:8003"],
         }
         self.health_checks = {}
-    
+
     async def get_healthy_instances(self, service_name: str) -> List[str]:
         """Get healthy service instances."""
         instances = self.services.get(service_name, [])
         healthy_instances = []
-        
+
         for instance in instances:
             if await self.is_healthy(instance):
                 healthy_instances.append(instance)
-        
+
         return healthy_instances
-    
+
     async def is_healthy(self, instance: str) -> bool:
         """Check if service instance is healthy."""
         try:
@@ -227,25 +227,25 @@ class ServiceRegistry:
 ```python
 class LoadBalancer:
     """Round-robin load balancer with health checking."""
-    
+
     def __init__(self, service_registry: ServiceRegistry):
         self.registry = service_registry
         self.current_index = {}
-    
+
     async def get_next_instance(self, service_name: str) -> str:
         """Get next healthy service instance."""
         instances = await self.registry.get_healthy_instances(service_name)
-        
+
         if not instances:
             raise HTTPException(status_code=503, detail="Service unavailable")
-        
+
         # Round-robin selection
         if service_name not in self.current_index:
             self.current_index[service_name] = 0
-        
+
         instance = instances[self.current_index[service_name]]
         self.current_index[service_name] = (self.current_index[service_name] + 1) % len(instances)
-        
+
         return instance
 ```
 
@@ -255,7 +255,7 @@ class LoadBalancer:
 ```python
 class MetricsCollector:
     """Collect and expose metrics."""
-    
+
     def __init__(self):
         self.request_counter = Counter(
             "http_requests_total",
@@ -271,7 +271,7 @@ class MetricsCollector:
             "http_active_connections",
             "Number of active HTTP connections"
         )
-    
+
     async def record_request(self, method: str, endpoint: str, status: int, service: str, duration: float):
         """Record request metrics."""
         self.request_counter.labels(method=method, endpoint=endpoint, status=status, service=service).inc()
@@ -282,7 +282,7 @@ class MetricsCollector:
 ```python
 class RequestLogger:
     """Structured request logging."""
-    
+
     async def log_request(self, request: Request, response: Response, duration: float):
         """Log request details."""
         log_data = {
@@ -296,7 +296,7 @@ class RequestLogger:
             "user_agent": request.headers.get("User-Agent"),
             "ip_address": request.client.host,
         }
-        
+
         logger.info("API Gateway Request", extra=log_data)
 ```
 
@@ -437,4 +437,4 @@ spec:
 
 ---
 
-**The API Gateway provides a secure, scalable, and observable entry point to the microservice platform, ensuring reliable communication between clients and services.** 
+**The API Gateway provides a secure, scalable, and observable entry point to the microservice platform, ensuring reliable communication between clients and services.**

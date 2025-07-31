@@ -34,12 +34,12 @@ def load_<topic>_config(path: str = "config/config_<topic>.json") -> dict:
     """
     config_path = Path(path)
     data = json.loads(config_path.read_text(encoding="utf-8"))
-    
+
     if "_meta" not in data:
         raise ValueError("Missing _meta in config")
 
     validate(instance=data, schema=SCHEMA_<TOPIC>)
-    
+
     meta = data["_meta"]
     logger.info(
         "Loaded %s (%s) by %s – %s",
@@ -48,7 +48,7 @@ def load_<topic>_config(path: str = "config/config_<topic>.json") -> dict:
         meta.get("author"),
         meta.get("description")
     )
-    
+
     return data
 
 # EOF

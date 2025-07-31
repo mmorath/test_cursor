@@ -170,4 +170,4 @@ microservice-project/
 
 ---
 
-**These project examples demonstrate the power and flexibility of the Hello World Codex, providing real-world implementations that can be adapted and extended for your specific needs.** 
+**These project examples demonstrate the power and flexibility of the Hello World Codex, providing real-world implementations that can be adapted and extended for your specific needs.**

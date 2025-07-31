@@ -102,4 +102,4 @@ ignore_errors = true
 
 [tool.bandit]
 exclude_dirs = ["tests", "docs/templates"]
-skips = ["B101", "B601"] 
+skips = ["B101", "B601"]

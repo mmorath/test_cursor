@@ -78,12 +78,12 @@ graph TB
         A[Position 5 von 40] --> B[████████████░░░░ 60%]
         C[ui.linear_progress: 0.6]
     end
-    
+
     subgraph "Artikel-Fortschritt"
         D[Artikel ABC123: 2 von 3] --> E[████░░ 66%]
         F[ui.linear_progress: 0.66]
     end
-    
+
     subgraph "Projekt-Status"
         G[Projekt: 12 von 20 Artikeln] --> H[████████████░░░░░░░░ 60%]
         I[ui.linear_progress: 0.6]
@@ -102,19 +102,19 @@ rectangle "Picking-Screen Layout" {
     [Position: 5 von 40]
     [████████████░░░░ 60%]
   }
-  
+
   rectangle "Artikel-Info" {
     [Artikel: ABC123]
     [Bezeichnung: Widget XYZ]
     [Menge: 3 Stück]
     [Lagerplatz: A1-B2-C3]
   }
-  
+
   rectangle "Scan-Bereich" {
     [Scan-Feld: Auto-Fokus]
     [Artikel-Fortschritt: ██░░ 66%]
   }
-  
+
   rectangle "Aktionen" {
     [Beschädigt] [Fehlt] [Zurück]
   }
@@ -130,12 +130,12 @@ graph TB
         A[❌ Ungültige Anmeldedaten] --> B[🔴 Roter Rahmen um Eingabefeld]
         B --> C[⚠️ Fehlermeldung: "Benutzername oder Passwort falsch"]
     end
-    
+
     subgraph "Projekt Error"
         D[❌ Ungültige Projektnummer] --> E[🔴 Roter Rahmen um Projekt-Feld]
         E --> F[⚠️ Fehlermeldung: "Projekt 123456 nicht gefunden"]
     end
-    
+
     subgraph "Scan Error"
         G[❌ Falscher Artikel gescannt] --> H[🔴 Roter Rahmen um Scan-Feld]
         H --> I[⚠️ Fehlermeldung: "Falscher Artikel - bitte erneut scannen"]
@@ -151,14 +151,14 @@ graph TB
         A[✅ Anmeldung erfolgreich] --> B[🟢 Grüner Rahmen um Eingabefeld]
         B --> C[🎉 Weiterleitung zu Projekt-Screen]
     end
-    
+
     subgraph "Scan Success"
         D[✅ Artikel korrekt gescannt] --> E[🟢 Grüner Rahmen um Scan-Feld]
         E --> F[🔊 Akustisches Erfolgssignal]
         F --> G[📈 Fortschritt aktualisiert]
         G --> H[🔄 Auto-Fokus auf nächstes Feld]
     end
-    
+
     subgraph "Projekt Success"
         I[✅ Projekt erfolgreich abgeschlossen] --> J[🎊 "Kommissionierung erfolgreich abgeschlossen"]
         J --> K[📤 Event an MQTT gesendet]
@@ -216,23 +216,23 @@ stateDiagram-v2
     [*] --> Login
     Login --> LoginError: Ungültige Anmeldedaten
     Login --> ProjectInput: Erfolgreiche Anmeldung
-    
+
     ProjectInput --> ProjectError: Ungültige Projektnummer
     ProjectInput --> MaterialCart: Gültige Projektnummer
-    
+
     MaterialCart --> MaterialCartError: Ungültiger Materialwagen
     MaterialCart --> Picking: Materialwagen zugewiesen
-    
+
     Picking --> ScanError: Falscher Artikel
     Picking --> ScanSuccess: Korrekter Artikel
     Picking --> DamagedArticle: Artikel beschädigt
     Picking --> MissingArticle: Artikel fehlt
-    
+
     ScanError --> Picking: Erneut scannen
     ScanSuccess --> Picking: Nächster Artikel
     DamagedArticle --> Picking: Nächster Artikel
     MissingArticle --> Picking: Nächster Artikel
-    
+
     Picking --> Completion: Alle Artikel gescannt
     Completion --> [*]: Projekt abgeschlossen
 ```
@@ -247,29 +247,29 @@ rectangle "App Layout" {
   rectangle "Header" {
     [Logo: Kommissionierung] [Benutzer: Max Mustermann] [Uhrzeit: 14:30] [Logout]
   }
-  
+
   rectangle "Main Content" {
     rectangle "Login Screen" {
       [Username] [Password] [Login Button]
     }
-    
+
     rectangle "Project Input" {
       [Projektnummer: _____] [Enter]
     }
-    
+
     rectangle "Material Cart Input" {
       [Materialwagen-ID: _____] [Enter]
     }
-    
+
     rectangle "Picking Process" {
       [Artikel-Info] [Scan-Feld] [Fortschritt] [Aktionen]
     }
-    
+
     rectangle "Completion" {
       [Erfolgreich abgeschlossen] [Neues Projekt]
     }
   }
-  
+
   rectangle "Footer" {
     [Status: Online] [Version: 1.0.0] [Support: #123]
   }

@@ -49,10 +49,10 @@ def validate_project_number(project_number: str) -> Tuple[bool, Optional[str]]:
         # Validation logic
         if not project_number:
             return False, "Project number is required"
-        
+
         if not re.match(r'^[0-9]{6}$', project_number):
             return False, "Project number must be exactly 6 digits"
-        
+
         return True, None
     except Exception as e:
         logger.error(f"Error validating project number: {e}")

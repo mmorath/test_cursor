@@ -55,10 +55,10 @@ def load_app_config(config_path: str = "config/app.json") -> Optional[Dict[str, 
         if not config_file.exists():
             logger.error(f"Configuration file not found: {config_path}")
             return None
-        
+
         with open(config_file, 'r') as f:
             config = json.load(f)
-        
+
         logger.info(f"Loaded configuration from {config_path}")
         return config
     except Exception as e:

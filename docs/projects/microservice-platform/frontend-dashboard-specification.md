@@ -94,18 +94,18 @@ interface ApiService {
   createUser(user: CreateUserRequest): Promise<User>
   updateUser(id: string, user: UpdateUserRequest): Promise<User>
   deleteUser(id: string): Promise<void>
-  
+
   // Order Service
   getOrders(params: OrderListParams): Promise<OrderListResponse>
   getOrder(id: string): Promise<Order>
   createOrder(order: CreateOrderRequest): Promise<Order>
   updateOrder(id: string, order: UpdateOrderRequest): Promise<Order>
-  
+
   // Inventory Service
   getInventory(params: InventoryListParams): Promise<InventoryListResponse>
   getInventoryItem(id: string): Promise<InventoryItem>
   updateInventory(id: string, item: UpdateInventoryRequest): Promise<InventoryItem>
-  
+
   // Analytics Service
   getDashboardMetrics(): Promise<DashboardMetrics>
   getAnalyticsReport(params: AnalyticsParams): Promise<AnalyticsReport>
@@ -155,13 +155,13 @@ export const apiSlice = createApi({
       query: (params) => ({ url: '/users', params }),
       providesTags: ['User'],
     }),
-    
+
     // Order endpoints
     getOrders: builder.query<OrderListResponse, OrderListParams>({
       query: (params) => ({ url: '/orders', params }),
       providesTags: ['Order'],
     }),
-    
+
     // Analytics endpoints
     getDashboardMetrics: builder.query<DashboardMetrics, void>({
       query: () => '/analytics/dashboard',
@@ -361,4 +361,4 @@ CMD ["nginx", "-g", "daemon off;"]
 
 ---
 
-**The Frontend Dashboard provides a modern, responsive, and performant user interface for the microservice platform, delivering an excellent user experience across all devices and use cases.** 
+**The Frontend Dashboard provides a modern, responsive, and performant user interface for the microservice platform, delivering an excellent user experience across all devices and use cases.**

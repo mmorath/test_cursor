@@ -3,7 +3,7 @@
 Codex Structure Validation and Optimization Script
 
 This script validates the entire docs/codex and docs/templates structure,
-ensuring consistency, completeness, and proper references between specs and 
+ensuring consistency, completeness, and proper references between specs and
 templates.
 """
 

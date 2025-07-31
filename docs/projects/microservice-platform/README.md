@@ -15,13 +15,13 @@ graph TB
         B[Mobile App]
         C[Admin Portal]
     end
-    
+
     subgraph "API Gateway"
         D[API Gateway]
         E[Load Balancer]
         F[Authentication]
     end
-    
+
     subgraph "Core Services"
         G[User Service]
         H[Order Service]
@@ -29,14 +29,14 @@ graph TB
         J[Payment Service]
         K[Notification Service]
     end
-    
+
     subgraph "Infrastructure"
         L[Message Queue]
         M[Database Cluster]
         N[Cache Layer]
         O[Monitoring]
     end
-    
+
     A --> D
     B --> D
     C --> D
@@ -166,7 +166,7 @@ sequenceDiagram
     participant UserService
     participant OrderService
     participant InventoryService
-    
+
     Client->>Gateway: Create Order
     Gateway->>UserService: Validate User
     UserService-->>Gateway: User Valid
@@ -185,7 +185,7 @@ sequenceDiagram
     participant NotificationService
     participant PaymentService
     participant InventoryService
-    
+
     OrderService->>MessageQueue: Order Created Event
     MessageQueue->>NotificationService: Send Confirmation
     MessageQueue->>PaymentService: Process Payment
@@ -331,4 +331,4 @@ Each service has its own specification document:
 
 ---
 
-**The Microservice Platform represents a modern, scalable approach to enterprise application development, combining the power of distributed systems with clear service boundaries and comprehensive monitoring.** 
+**The Microservice Platform represents a modern, scalable approach to enterprise application development, combining the power of distributed systems with clear service boundaries and comprehensive monitoring.**

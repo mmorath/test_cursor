@@ -157,7 +157,7 @@ Cart ID: CART-001
 ```
 Scan: ABC123
 → Correct Article ✅ → Progress: 1/3
-Scan: DEF456  
+Scan: DEF456
 → Correct Article ✅ → Progress: 2/3
 Scan: GHI789
 → Correct Article ✅ → Progress: 3/3
@@ -241,4 +241,4 @@ kommissionierung/
 
 ---
 
-**The Kommissionierung system represents a modern, efficient approach to warehouse picking operations, combining the power of NiceGUI with scanner-optimized workflows for maximum productivity.** 
+**The Kommissionierung system represents a modern, efficient approach to warehouse picking operations, combining the power of NiceGUI with scanner-optimized workflows for maximum productivity.**
