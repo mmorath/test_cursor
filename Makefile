@@ -21,6 +21,20 @@ install:
 	cd $(FRONTEND_DIR) && $(PIP) install -r requirements.txt
 	@echo "✅ Dependencies installed"
 
+.PHONY: compile-requirements
+compile-requirements:
+	@echo "🔧 Compiling requirements from .in files..."
+	cd $(BACKEND_DIR) && pip-compile requirements.in
+	cd $(FRONTEND_DIR) && pip-compile requirements.in
+	@echo "✅ Requirements compiled"
+
+.PHONY: update-requirements
+update-requirements:
+	@echo "🔄 Updating requirements..."
+	cd $(BACKEND_DIR) && pip-compile --upgrade requirements.in
+	cd $(FRONTEND_DIR) && pip-compile --upgrade requirements.in
+	@echo "✅ Requirements updated"
+
 .PHONY: install-dev
 install-dev:
 	@echo "📦 Installing development dependencies..."
@@ -175,6 +189,8 @@ help:
 	@echo "Development:"
 	@echo "  install        Install all dependencies"
 	@echo "  install-dev    Install development dependencies"
+	@echo "  compile-requirements Compile requirements from .in files"
+	@echo "  update-requirements Update requirements to latest versions"
 	@echo ""
 	@echo "Testing:"
 	@echo "  test           Run all tests"
