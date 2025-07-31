@@ -1,0 +1,64 @@
+# File: app/routes/{{ filename }}.py
+# -*- coding:utf-8 -*-
+
+"""
+Module: UI Routing
+Description:
+    Definiert zentrale Seitenrouten der NiceGUI-Anwendung
+    (z. B. {{ example_routes }}).
+    Jede Route verweist auf ein UI-Element oder eine Card-Komponente.
+
+Usage:
+    Importiere dieses Modul in `main.py`, um alle Routen zu registrieren:
+        from app.routes.{{ filename }} import *
+
+Author: Matthias Morath
+Creation Date: {{ created }}
+Last Modified: {{ modified }}
+Version: {{ version }}
+License: MIT
+
+Dependencies:
+    - nicegui
+    - logging
+    {% for dep in dependencies %}
+    - {{ dep }}
+    {% endfor %}
+
+Metadata:
+    {"category": "routing", "tags": ["nicegui", "routing", {{ tags|join(', ') }}]}
+"""
+
+# MARK: ━━━ IMPORTS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+import logging
+from nicegui import ui
+{% for view_import in view_imports %}
+from {{ view_import.module }} import {{ view_import.function }}
+{% endfor %}
+
+# MARK: ━━━ LOGGER ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+logger = logging.getLogger(__name__)
+
+# MARK: ━━━ ROUTEN ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+@ui.page("{{ root_route }}")
+def {{ root_function }}():
+    """
+    {{ root_description }}
+
+    Route: {{ root_route }}
+    """
+    logger.info("📄 Aufruf Route: {{ root_route }} – {{ root_description }}")
+    {{ root_call }}
+
+# MARK: ━━━ WEITERE ROUTEN (Beispiele) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+{% for page in pages %}
+@ui.page("{{ page.route }}")
+def {{ page.function }}():
+    """
+    {{ page.description }}
+
+    Route: {{ page.route }}
+    """
+    logger.info("📄 Aufruf Route: {{ page.route }} – {{ page.description }}")
+    {{ page.call }}
+{% endfor %}

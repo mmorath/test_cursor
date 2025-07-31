@@ -1,0 +1,35 @@
+# File: app/components/{{ name }}.py
+# -*- coding:utf-8 -*-
+"""
+Component: {{ label }} Auswahl
+
+Beschreibung:
+    Dropdown-Auswahlkomponente für {{ label }} mit dynamischer Optionsliste.
+
+Beispiel:
+    from app.components.{{ name }} import create_{{ name }}_step
+    dropdown = create_{{ name }}_step(stepper)
+"""
+
+import logging
+from nicegui import ui
+from app.helpers.{{ helper }} import get_{{ helper_func }}
+
+logger = logging.getLogger(__name__)
+
+
+def create_{{ name }}_step(stepper) -> ui.select:
+    """Erzeugt einen Step mit Dropdown-Auswahl für {{ label }}."""
+    logger.info("Initialisiere Step: {{ label }}")
+
+    with ui.step('{{ label }}'):
+        dropdown = ui.select(
+            options=get_{{ helper_func }}(),
+            label='Bitte {{ label }} auswählen',
+        ).props("use-input clearable autofocus").classes("w-full")
+
+        with ui.stepper_navigation():
+            ui.button('Zurück', on_click=stepper.previous).props('flat')
+            ui.button('Weiter', on_click=stepper.next, color="primary")
+
+    return dropdown

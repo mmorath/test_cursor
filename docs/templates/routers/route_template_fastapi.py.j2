@@ -1,0 +1,32 @@
+# File: app/api/v{{ version }}/routes/route_{{ resource }}.py
+# -*- coding:utf-8 -*-
+"""
+Route: /api/v{{ version }}/{{ resource }}
+Beschreibung:
+    API-Endpunkte zur Verwaltung von {{ resource | capitalize }}.
+Version: v{{ version }}
+Autor: Matthias Morath
+"""
+
+from fastapi import APIRouter, HTTPException, status, Request
+from app.api.v{{ version }}.models.{{ resource }}_models import {{ resource | capitalize }}Response
+import logging
+
+router = APIRouter()
+logger = logging.getLogger(__name__)
+
+@router.get("/", response_model={{ resource | capitalize }}Response)
+async def list_{{ resource }}(request: Request):
+    """
+    Gibt eine Liste aller {{ resource }} zurück.
+    """
+    logger.info("📥 API v{{ version }} – GET /{{ resource }}")
+    try:
+        return {
+            "status": "success",
+            "message": "List of {{ resource }} retrieved successfully",
+            "data": []
+        }
+    except Exception as e:
+        logger.error("❌ Fehler: %s", str(e))
+        raise HTTPException(status_code=500, detail="Serverfehler")

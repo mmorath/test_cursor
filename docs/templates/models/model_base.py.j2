@@ -1,0 +1,57 @@
+# File: app/models/model_base.py
+# Path: {{ project_path }}/app/models/model_base.py
+
+"""
+Module: BaseModel Template
+Description:
+    Basismodell für alle Pydantic-Datenmodelle in der Anwendung.
+    Erweitert Pydantic v2 mit zentralen Konfigurationsoptionen und ggf. globaler Validierung.
+
+Usage:
+    Erbe in deinen Modellen von `BaseAppModel`, um automatisch einheitliche Configs zu erhalten.
+
+Author: {{ author }}
+Created: {{ created }}
+Version: 1.0.0
+License: MIT
+"""
+
+from pydantic import BaseModel, ConfigDict, Field
+import logging
+
+# MARK: ━━━ Logging ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+logger = logging.getLogger(__name__)
+
+
+# MARK: ━━━ Base Model ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+class BaseAppModel(BaseModel):
+    """
+    Gemeinsames Basismodell für alle Pydantic-Datenklassen.
+    Enthält standardisierte Einstellungen und kann erweitert werden.
+    """
+
+    model_config = ConfigDict(
+        extra="forbid",          # keine unbekannten Felder erlaubt
+        str_strip_whitespace=True,
+        validate_default=True,
+        populate_by_name=True,
+        frozen=False,            # Optional: True für Immutable-Modelle
+    )
+
+    def log_self(self, prefix: str = "📦 Model Dump") -> None:
+        """
+        Gibt den Zustand des Modells mit Logging aus – für Debugging hilfreich.
+
+        Args:
+            prefix (str): Optionaler Log-Prefix
+        """
+        logger.debug("%s ➝ %s", prefix, self.model_dump_json(indent=2))
+
+
+# Optionales Beispielmodell auf Basis des Basismodells
+class ExampleModel(BaseAppModel):
+    """
+    Beispielmodell, das das Basismodell erweitert.
+    """
+    name: str = Field(..., description="Name des Objekts")
+    enabled: bool = Field(default=True, description="Aktiviert-Status")

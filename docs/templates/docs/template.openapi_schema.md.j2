@@ -1,0 +1,73 @@
+<!-- File: templates/docs/template.openapi_schema.md.j2 -->
+<!-- Path: codex/templates/docs/template.openapi_schema.md.j2 -->
+
+# 📘 OpenAPI Schema Dokumentation
+
+## 🧭 API Übersicht
+
+**Titel**: {{ info.title }}  
+**Version**: {{ info.version }}  
+**Beschreibung**:  
+{{ info.description }}
+
+---
+
+## 📚 Pfade
+
+{% for path, path_item in paths.items() %}
+### {{ path }}
+
+{% for method, operation in path_item.items() %}
+#### `{{ method | upper }}`
+
+- **Summary**: {{ operation.summary or "–" }}
+- **Beschreibung**: {{ operation.description or "–" }}
+- **Operation ID**: `{{ operation.operationId }}`
+- **Tags**: {{ operation.tags | join(", ") }}
+
+##### 🔸 Parameter
+
+{% if operation.parameters %}
+| Name | In | Typ | Beschreibung |
+|------|----|-----|--------------|
+{% for param in operation.parameters %}
+| `{{ param.name }}` | {{ param.in }} | {{ param.schema.type }} | {{ param.description or "–" }} |
+{% endfor %}
+{% else %}
+Keine Parameter.
+{% endif %}
+
+##### 🔹 Request Body
+
+{% if operation.requestBody %}
+**Content-Type**: {{ operation.requestBody.content.keys() | list | join(", ") }}
+
+{% for content_type, content in operation.requestBody.content.items() %}
+- **Schema**: `{{ content.schema['$ref'].split('/')[-1] if content.schema['$ref'] else content.schema.type }}`
+{% endfor %}
+{% else %}
+Kein Body definiert.
+{% endif %}
+
+##### 🔸 Responses
+
+{% for code, response in operation.responses.items() %}
+- **{{ code }}**: {{ response.description }}
+{% endfor %}
+
+---
+{% endfor %}
+{% endfor %}
+
+## 🧾 Komponenten
+
+{% for name, schema in components.schemas.items() %}
+### 📦 {{ name }}
+
+| Feld | Typ | Beschreibung |
+|------|-----|--------------|
+{% for prop, details in schema.properties.items() %}
+| `{{ prop }}` | {{ details.type }} | {{ details.description or "-" }} |
+{% endfor %}
+
+{% endfor %}

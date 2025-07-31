@@ -1,0 +1,26 @@
+# File: app/models/model_{{ name }}.py
+# -*- coding:utf-8 -*-
+"""
+Model: {{ label }}
+
+Beschreibung:
+    Repräsentiert {{ description }}
+
+Usage:
+    from app.models.model_{{ name }} import {{ class_name }}
+"""
+
+from pydantic import BaseModel, Field, field_validator
+from typing import Dict
+
+class {{ class_name }}(BaseModel):
+    __root__: Dict[str, str] = Field(
+        ..., description="{{ field_description }}"
+    )
+
+    @field_validator('__root__')
+    @classmethod
+    def must_not_be_empty(cls, value: Dict[str, str]) -> Dict[str, str]:
+        if not value:
+            raise ValueError("Darf nicht leer sein.")
+        return value

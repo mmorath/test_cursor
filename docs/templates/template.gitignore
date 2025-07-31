@@ -1,0 +1,58 @@
+# File: template.gitignore
+# Path: <any>/.gitignore
+
+# MARK: ━━━ System Files ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+.DS_Store
+Thumbs.db
+
+# MARK: ━━━ Editor Configs ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# MARK: ━━━ Python ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+*.log
+.cache/
+.venv/
+venv/
+env/
+*.sqlite3
+*.db
+pip-wheel-metadata/
+
+# MARK: ━━━ Environment & Secrets ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+.env
+.env.*
+*.key
+*.pem
+
+# MARK: ━━━ Build & Test ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+build/
+dist/
+.coverage
+coverage.xml
+htmlcov/
+.tox/
+pytest_cache/
+tests/__snapshots__/
+
+# MARK: ━━━ MkDocs ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+site/
+
+# MARK: ━━━ Docker ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+*.tar
+*.bak
+docker-compose.override.yml
+
+# MARK: ━━━ Misc ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+*.swp
+*~
+*.bak
+*.tmp
+*.orig

@@ -1,0 +1,71 @@
+# File: template.mkdocs.yml
+# Path: ./mkdocs.yml
+
+# MARK: ━━━ Project Metadata ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+site_name: Supermarket API Docs
+site_description: Technische Dokumentation des Supermarkt-Microservice-Systems
+site_author: Matthias Morath
+site_url: https://mmorath.github.io/supermarkt/
+
+# MARK: ━━━ Theme ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+theme:
+  name: material
+  language: de
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - content.code.copy
+    - content.code.annotate
+    - search.suggest
+  palette:
+    - scheme: default
+      primary: blue
+      accent: indigo
+
+# MARK: ━━━ Markdown Extensions ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+markdown_extensions:
+  - admonition
+  - codehilite
+  - toc:
+      permalink: true
+  - pymdownx.superfences
+  - pymdownx.tabbed
+  - pymdownx.details
+  - pymdownx.emoji
+  - pymdownx.inlinehilite
+  - pymdownx.magiclink
+
+# MARK: ━━━ Plugins ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            show_source: true
+            docstring_style: google
+            merge_init_into_class: true
+  - macros
+
+# MARK: ━━━ Navigation ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+nav:
+  - Übersicht: index.md
+  - Spezifikationen:
+      - Architektur: codex/project.supermarkt.md
+      - API-Konventionen: codex/spec.api_conventions.md
+      - Codequalität: codex/spec.code_quality.md
+  - Referenz:
+      - API: reference/api.md
+      - Modelle: reference/models.md
+  - Changelog: changelog.md
+
+# MARK: ━━━ Extra Configuration ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+extra_css:
+  - css/custom.css
+
+extra_javascript:
+  - js/custom.js
+
+# MARK: ━━━ Deployment ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# Optional GitHub Pages deployment
+# python -m mkdocs gh-deploy --force

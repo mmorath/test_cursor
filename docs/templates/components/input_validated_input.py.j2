@@ -1,0 +1,54 @@
+# File: app/components/{{ name }}.py
+# -*- coding:utf-8 -*-
+"""
+Component: {{ label }}
+
+Beschreibung:
+    {{ description }}
+
+Beispiel:
+    from app.components.{{ name }} import create_{{ name }}_step
+    input = create_{{ name }}_step(stepper)
+"""
+
+import logging
+import re
+from nicegui import ui
+
+logger = logging.getLogger(__name__)
+
+
+def validate_{{ name }}(value: str) -> bool:
+    """Validiert den eingegebenen Wert."""
+    pattern = r"{{ regex }}"
+    result = bool(re.match(pattern, value))
+    logger.debug("Validierung {{ label }}: %s ➝ %s", value, result)
+    return result
+
+
+def create_{{ name }}_step(stepper) -> ui.input:
+    """Erzeugt den Step zur Eingabe von {{ label }}."""
+    logger.info("Initialisiere Step: {{ label }}")
+
+    with ui.step('{{ label }}'):
+        input_field = ui.input(
+            label='{{ label }}',
+            placeholder='{{ placeholder }}',
+            validation={'❌ Ungültig': validate_{{ name }}},
+        ).props('clearable autofocus').classes('w-full')
+
+        def continue_step():
+            value = input_field.value
+            logger.debug("Weiter-Button: %s", value)
+            if validate_{{ name }}(value):
+                stepper.next()
+            else:
+                ui.notify("❌ Bitte gültigen Wert eingeben", type="negative")
+
+        input_field.on('keydown.enter', continue_step)
+
+        with ui.stepper_navigation():
+            ui.button('Zurück', on_click=stepper.previous).props('flat')
+            ui.button('Weiter', on_click=continue_step, color="primary")
+
+    return input_field
