@@ -23,7 +23,10 @@ def get_logging_config() -> Dict[str, Any]:
         "version": 1,
         "disable_existing_loggers": False,
         "formatters": {
-            "default": {"format": settings.log_format, "datefmt": "%Y-%m-%d %H:%M:%S"},
+            "default": {
+                "format": settings.log_format,
+                "datefmt": "%Y-%m-%d %H:%M:%S",
+            },
             "detailed": {
                 "format": "%(asctime)s - %(name)s - %(levelname)s - %(funcName)s:%(lineno)d - %(message)s",
                 "datefmt": "%Y-%m-%d %H:%M:%S",
@@ -51,7 +54,11 @@ def get_logging_config() -> Dict[str, Any]:
                 "handlers": ["console", "file"],
                 "propagate": False,
             },
-            "nicegui": {"level": "INFO", "handlers": ["console"], "propagate": False},
+            "nicegui": {
+                "level": "INFO",
+                "handlers": ["console"],
+                "propagate": False,
+            },
         },
     }
 

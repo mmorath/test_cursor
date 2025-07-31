@@ -15,15 +15,20 @@ def create_pickers_view():
     """Create pickers management view."""
     logger.info("Initialisiere Pickers View")
 
-    with ui.column().classes("full-width q-pa-md"):
+    column = ui.column().classes("full-width q-pa-md")
+    with column:
         ui.label("👥 Pickers Management").classes("text-h4 q-mb-lg")
 
         with ui.row().classes("full-width q-mb-md"):
-            ui.button("➕ Add Picker", on_click=add_picker).classes("bg-green-600")
+            ui.button("➕ Add Picker", on_click=add_picker).classes(
+                "bg-green-600"
+            )
 
         # Pickers Grid
         with ui.row().classes("full-width q-gutter-md"):
             ui.label("No pickers available").classes("text-grey-500")
+
+    return column
 
 
 def add_picker():

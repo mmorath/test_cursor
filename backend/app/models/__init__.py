@@ -5,7 +5,12 @@
 Data models for the logistics management system.
 """
 
-from .article_models import Article, ArticleCreate, ArticleUpdate, ArticleResponse
+from .article_models import (
+    Article,
+    ArticleCreate,
+    ArticleUpdate,
+    ArticleResponse,
+)
 from .project_models import Project, ProjectCreate, ProjectResponse
 from .order_models import PickingOrder, OrderCreate, OrderResponse, OrderList
 from .picker_models import Picker, PickerCreate, PickerResponse

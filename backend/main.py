@@ -71,7 +71,11 @@ async def root():
     return BaseResponse(
         status="success",
         message=f"{settings.app_name} API is running",
-        data={"version": settings.app_version, "docs": "/docs", "health": "/health"},
+        data={
+            "version": settings.app_version,
+            "docs": "/docs",
+            "health": "/health",
+        },
     )
 
 
@@ -79,7 +83,9 @@ async def root():
 async def health_check():
     """Health check endpoint."""
     return BaseResponse(
-        status="success", message="System is healthy", data={"status": "operational"}
+        status="success",
+        message="System is healthy",
+        data={"status": "operational"},
     )
 
 
@@ -97,7 +103,9 @@ async def startup_event():
     """Initialize system on startup."""
     logger.info("🚀 Starting %s v%s", settings.app_name, settings.app_version)
     logger.info(
-        "📡 Server will be available at http://%s:%s", settings.host, settings.port
+        "📡 Server will be available at http://%s:%s",
+        settings.host,
+        settings.port,
     )
 
 

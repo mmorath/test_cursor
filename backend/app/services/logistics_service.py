@@ -9,7 +9,14 @@ import logging
 from typing import List, Dict, Any, Optional
 from collections import defaultdict
 
-from ..models import Article, Project, PickingOrder, Picker, MaterialCart, StatusEnum
+from ..models import (
+    Article,
+    Project,
+    PickingOrder,
+    Picker,
+    MaterialCart,
+    StatusEnum,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -82,7 +89,9 @@ class LogisticsService:
 
         article = self.get_article_by_id(order.project, article_id)
         if not article:
-            logger.warning(f"Article {article_id} not found in order {order_id}")
+            logger.warning(
+                f"Article {article_id} not found in order {order_id}"
+            )
             return False
 
         if article.status != StatusEnum.OFFEN:
@@ -110,7 +119,57 @@ class LogisticsService:
         if picker:
             picker.total_picks_today += 1
 
-        logger.info(f"Picked {quantity} of article {article_id} from order {order_id}")
+        logger.info(
+            f"Picked {quantity} of article {article_id} from order {order_id}"
+        )
+        return True
+
+    def pick_article_by_position(
+        self, order_id: str, position: int, quantity: int, picker_id: str
+    ) -> bool:
+        """Record picking of an article by position."""
+        order = self.get_order_by_id(order_id)
+        if not order:
+            logger.warning(f"Order {order_id} not found")
+            return False
+
+        article = self.get_article_by_position(order.project, position)
+        if not article:
+            logger.warning(
+                f"Article at position {position} not found in order {order_id}"
+            )
+            return False
+
+        if article.status != StatusEnum.OFFEN:
+            logger.warning(
+                f"Article at position {position} is not open for picking"
+            )
+            return False
+
+        if quantity > article.menge:
+            logger.warning(
+                f"Picking quantity {quantity} exceeds required {article.menge}"
+            )
+            return False
+
+        # Update article status
+        if quantity == article.menge:
+            article.status = StatusEnum.ABGESCHLOSSEN
+        else:
+            article.status = StatusEnum.IN_BEARBEITUNG
+
+        article.anzahl_auf_wagen = quantity
+        article.kommisionierer = picker_id
+        article.anzahl_aktion += 1
+
+        # Update picker statistics
+        picker = self.get_picker_by_id(picker_id)
+        if picker:
+            picker.total_picks_today += 1
+
+        logger.info(
+            f"Picked {quantity} of article {article.artikel} (pos {position}) from order {order_id}"
+        )
         return True
 
     def complete_order(self, order_id: str) -> bool:
@@ -121,7 +180,11 @@ class LogisticsService:
 
         # Check if all articles are completed
         completed_articles = len(
-            [a for a in order.project.articles if a.status == StatusEnum.ABGESCHLOSSEN]
+            [
+                a
+                for a in order.project.articles
+                if a.status == StatusEnum.ABGESCHLOSSEN
+            ]
         )
         total_articles = len(order.project.articles)
 
@@ -164,20 +227,37 @@ class LogisticsService:
                 return cart
         return None
 
-    def get_article_by_id(self, project: Project, article_id: str) -> Optional[Article]:
+    def get_article_by_id(
+        self, project: Project, article_id: str
+    ) -> Optional[Article]:
         """Get article by ID from a project."""
         for article in project.articles:
             if article.artikel == article_id:
                 return article
         return None
 
+    def get_article_by_position(
+        self, project: Project, position: int
+    ) -> Optional[Article]:
+        """Get article by position from a project."""
+        for article in project.articles:
+            if article.position == position:
+                return article
+        return None
+
     def get_open_orders(self) -> List[PickingOrder]:
         """Get all open orders."""
-        return [order for order in self.orders if order.status == StatusEnum.OFFEN]
+        return [
+            order for order in self.orders if order.status == StatusEnum.OFFEN
+        ]
 
     def get_orders_by_picker(self, picker_id: str) -> List[PickingOrder]:
         """Get orders assigned to a specific picker."""
-        return [order for order in self.orders if order.assigned_picker == picker_id]
+        return [
+            order
+            for order in self.orders
+            if order.assigned_picker == picker_id
+        ]
 
     def get_available_carts(self) -> List[MaterialCart]:
         """Get all available carts."""
@@ -210,7 +290,9 @@ class LogisticsService:
 
     def get_system_overview(self) -> Dict[str, Any]:
         """Get system overview statistics."""
-        total_articles = sum(len(order.project.articles) for order in self.orders)
+        total_articles = sum(
+            len(order.project.articles) for order in self.orders
+        )
         picked_articles = sum(
             len(
                 [
@@ -226,17 +308,29 @@ class LogisticsService:
             "total_orders": len(self.orders),
             "open_orders": len(self.get_open_orders()),
             "completed_orders": len(
-                [o for o in self.orders if o.status == StatusEnum.ABGESCHLOSSEN]
+                [
+                    o
+                    for o in self.orders
+                    if o.status == StatusEnum.ABGESCHLOSSEN
+                ]
             ),
             "total_articles": total_articles,
             "picked_articles": picked_articles,
-            "total_weight": sum(order.project.total_weight for order in self.orders),
-            "active_pickers": len([p for p in self.pickers if p.current_order]),
+            "total_weight": sum(
+                order.project.total_weight for order in self.orders
+            ),
+            "active_pickers": len(
+                [p for p in self.pickers if p.current_order]
+            ),
             "available_carts": len(self.get_available_carts()),
             "completion_rate": (
                 (
                     len(
-                        [o for o in self.orders if o.status == StatusEnum.ABGESCHLOSSEN]
+                        [
+                            o
+                            for o in self.orders
+                            if o.status == StatusEnum.ABGESCHLOSSEN
+                        ]
                     )
                     / len(self.orders)
                     * 100
@@ -245,7 +339,9 @@ class LogisticsService:
                 else 0
             ),
             "efficiency_score": (
-                (picked_articles / total_articles * 100) if total_articles > 0 else 0
+                (picked_articles / total_articles * 100)
+                if total_articles > 0
+                else 0
             ),
         }
 

@@ -60,8 +60,12 @@ def create_header():
         ui.label("🏭 Logistics Management System").classes("text-h6")
         ui.space()
         with ui.row().classes("items-center"):
-            ui.button("🔄 Refresh", on_click=refresh_data).classes("bg-blue-600")
-            ui.button("📊 Statistics", on_click=show_statistics).classes("bg-green-600")
+            ui.button("🔄 Refresh", on_click=refresh_data).classes(
+                "bg-blue-600"
+            )
+            ui.button("📊 Statistics", on_click=show_statistics).classes(
+                "bg-green-600"
+            )
 
 
 def create_sidebar():

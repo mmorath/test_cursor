@@ -26,11 +26,17 @@ class DataService:
     def _validate_data_directory(self) -> None:
         """Validate that data directory exists."""
         if not self.data_dir.exists():
-            raise FileNotFoundError(f"Data directory not found: {self.data_dir}")
+            raise FileNotFoundError(
+                f"Data directory not found: {self.data_dir}"
+            )
         if not self.data_dir.is_dir():
-            raise NotADirectoryError(f"Path is not a directory: {self.data_dir}")
+            raise NotADirectoryError(
+                f"Path is not a directory: {self.data_dir}"
+            )
 
-    def load_csv_data(self, filename: str = "orig.csv") -> List[Dict[str, Any]]:
+    def load_csv_data(
+        self, filename: str = "orig.csv"
+    ) -> List[Dict[str, Any]]:
         """Load data from CSV file."""
         file_path = self.data_dir / filename
         if not file_path.exists():
@@ -82,7 +88,9 @@ class DataService:
         logger.info(f"Successfully parsed {len(articles)} articles from CSV")
         return articles
 
-    def parse_json_projects(self, filename: str = "project.json") -> List[Project]:
+    def parse_json_projects(
+        self, filename: str = "project.json"
+    ) -> List[Project]:
         """Parse JSON data into Project objects."""
         raw_data = self.load_json_data(filename)
         projects = []
@@ -111,7 +119,13 @@ class DataService:
                 cleaned["gewicht"] = 0.0
 
         # Handle numeric fields
-        numeric_fields = ["menge", "bestand", "position", "vorgang_id", "anzahl_aktion"]
+        numeric_fields = [
+            "menge",
+            "bestand",
+            "position",
+            "vorgang_id",
+            "anzahl_aktion",
+        ]
         for field in numeric_fields:
             if field in row:
                 try:
@@ -120,7 +134,11 @@ class DataService:
                     cleaned[field] = 0
 
         # Handle optional fields
-        optional_fields = ["anzahl_auf_wagen", "anzahl_fehlt", "anzahl_beschaedigt"]
+        optional_fields = [
+            "anzahl_auf_wagen",
+            "anzahl_fehlt",
+            "anzahl_beschaedigt",
+        ]
         for field in optional_fields:
             if field in row and row[field]:
                 try:
@@ -160,7 +178,9 @@ class DataService:
 
         return cleaned
 
-    def _create_project_from_data(self, project_data: Dict[str, Any]) -> Project:
+    def _create_project_from_data(
+        self, project_data: Dict[str, Any]
+    ) -> Project:
         """Create Project object from project data."""
         articles = []
 
@@ -172,9 +192,13 @@ class DataService:
                 logger.warning(f"Failed to parse article in project: {e}")
                 continue
 
-        return Project(projekt_nr=project_data["projekt_nr"], articles=articles)
+        return Project(
+            projekt_nr=project_data["projekt_nr"], articles=articles
+        )
 
-    def create_picking_orders(self, projects: List[Project]) -> List[PickingOrder]:
+    def create_picking_orders(
+        self, projects: List[Project]
+    ) -> List[PickingOrder]:
         """Create picking orders from projects."""
         orders = []
 
@@ -200,7 +224,9 @@ class DataService:
         priority = int(weight_factor + article_factor + 1)
         return min(priority, 10)
 
-    def validate_data_consistency(self, articles: List[Article]) -> Dict[str, Any]:
+    def validate_data_consistency(
+        self, articles: List[Article]
+    ) -> Dict[str, Any]:
         """Validate data consistency and return validation report."""
         report = {
             "total_articles": len(articles),

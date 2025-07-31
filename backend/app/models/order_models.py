@@ -21,7 +21,9 @@ class PickingOrder(BaseModel):
         default_factory=datetime.now, description="Creation time"
     )
     assigned_picker: Optional[str] = Field(None, description="Assigned picker")
-    status: StatusEnum = Field(default=StatusEnum.OFFEN, description="Order status")
+    status: StatusEnum = Field(
+        default=StatusEnum.OFFEN, description="Order status"
+    )
     priority: int = Field(default=1, ge=1, le=10, description="Priority level")
     estimated_duration: Optional[int] = Field(
         None, ge=0, description="Estimated duration in minutes"
@@ -61,7 +63,9 @@ class OrderResponse(BaseModel):
     priority: int = Field(..., description="Priority level")
     assigned_picker: Optional[str] = Field(None, description="Assigned picker")
     created_at: datetime = Field(..., description="Creation time")
-    completion_percentage: float = Field(..., description="Completion percentage")
+    completion_percentage: float = Field(
+        ..., description="Completion percentage"
+    )
     total_articles: int = Field(..., description="Total articles")
     completed_articles: int = Field(..., description="Completed articles")
     total_weight: float = Field(..., description="Total weight")

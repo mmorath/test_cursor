@@ -16,14 +16,21 @@ def create_dashboard_view():
     """Create main dashboard view."""
     logger.info("Initialisiere Dashboard View")
 
-    with ui.column().classes("full-width q-pa-md"):
+    column = ui.column().classes("full-width q-pa-md")
+    with column:
         ui.label("📊 System Dashboard").classes("text-h4 q-mb-lg")
 
         # Statistics Cards
         with ui.row().classes("full-width q-gutter-md"):
-            create_statistics_card_component("📦 Total Orders", "0", "bg-blue-100")
-            create_statistics_card_component("✅ Completed Orders", "0", "bg-green-100")
-            create_statistics_card_component("⏳ Open Orders", "0", "bg-orange-100")
+            create_statistics_card_component(
+                "📦 Total Orders", "0", "bg-blue-100"
+            )
+            create_statistics_card_component(
+                "✅ Completed Orders", "0", "bg-green-100"
+            )
+            create_statistics_card_component(
+                "⏳ Open Orders", "0", "bg-orange-100"
+            )
             create_statistics_card_component(
                 "📈 Completion Rate", "0%", "bg-purple-100"
             )
@@ -32,6 +39,8 @@ def create_dashboard_view():
         with ui.card().classes("full-width q-mt-lg"):
             ui.label("📋 Recent Orders").classes("text-h6 q-mb-md")
             ui.label("No orders available").classes("text-grey-500")
+
+    return column
 
 
 # EOF

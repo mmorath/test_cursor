@@ -16,7 +16,9 @@ class Settings(BaseSettings):
 
     # MARK: ━━━ Application Settings ━━━
 
-    app_name: str = Field("Logistics Management System", description="Application name")
+    app_name: str = Field(
+        "Logistics Management System", description="Application name"
+    )
     app_version: str = Field("1.0.0", description="Application version")
     debug: bool = Field(True, description="Debug mode")
 
@@ -27,7 +29,9 @@ class Settings(BaseSettings):
 
     # MARK: ━━━ API Settings ━━━
 
-    api_base_url: str = Field("http://localhost:8000", description="Backend API URL")
+    api_base_url: str = Field(
+        "http://localhost:8000", description="Backend API URL"
+    )
     api_timeout: int = Field(30, description="API request timeout")
 
     # MARK: ━━━ UI Settings ━━━
@@ -39,7 +43,8 @@ class Settings(BaseSettings):
 
     log_level: str = Field("INFO", description="Logging level")
     log_format: str = Field(
-        "%(asctime)s - %(name)s - %(levelname)s - %(message)s", description="Log format"
+        "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        description="Log format",
     )
 
     class Config:
@@ -63,7 +68,10 @@ def get_logging_config() -> dict:
         "version": 1,
         "disable_existing_loggers": False,
         "formatters": {
-            "default": {"format": settings.log_format, "datefmt": "%Y-%m-%d %H:%M:%S"},
+            "default": {
+                "format": settings.log_format,
+                "datefmt": "%Y-%m-%d %H:%M:%S",
+            },
             "detailed": {
                 "format": "%(asctime)s - %(name)s - %(levelname)s - %(funcName)s:%(lineno)d - %(message)s",
                 "datefmt": "%Y-%m-%d %H:%M:%S",
@@ -91,7 +99,11 @@ def get_logging_config() -> dict:
                 "handlers": ["console", "file"],
                 "propagate": False,
             },
-            "nicegui": {"level": "INFO", "handlers": ["console"], "propagate": False},
+            "nicegui": {
+                "level": "INFO",
+                "handlers": ["console"],
+                "propagate": False,
+            },
         },
     }
 

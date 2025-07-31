@@ -45,7 +45,9 @@ def test_complete_picking_workflow():
     # Create test picker and cart
     from app.models import Picker, MaterialCart
 
-    picker = Picker(picker_id="P001", name="Test Picker", employee_number="EMP001")
+    picker = Picker(
+        picker_id="P001", name="Test Picker", employee_number="EMP001"
+    )
 
     cart = MaterialCart(cart_id="C001", capacity=100.0)
 
@@ -68,12 +70,14 @@ def test_complete_picking_workflow():
     assert test_order.status == StatusEnum.IN_BEARBEITUNG
 
     # Step 2: Assign cart to picker
-    success = logistics_service.assign_cart_to_picker(picker.picker_id, cart.cart_id)
+    success = logistics_service.assign_cart_to_picker(
+        picker.picker_id, cart.cart_id
+    )
     assert success is True, "Cart assignment should succeed"
     assert cart.assigned_picker == picker.picker_id
     assert not cart.is_available
 
-        # Step 3: Pick all open articles in the order
+    # Step 3: Pick all open articles in the order
     # Continue picking until all articles are completed
     while True:
         # Find any article that is still open
@@ -82,13 +86,15 @@ def test_complete_picking_workflow():
             if article.status == StatusEnum.OFFEN:
                 open_article = article
                 break
-        
+
         if not open_article:
             break  # All articles are picked
-        
-        success = logistics_service.pick_article(
-            test_order.order_id, open_article.artikel,
-            open_article.menge, picker.picker_id
+
+        success = logistics_service.pick_article_by_position(
+            test_order.order_id,
+            open_article.position,
+            open_article.menge,
+            picker.picker_id,
         )
         assert (
             success is True
@@ -135,7 +141,11 @@ def test_picking_process_api_integration(client: TestClient):
         f"/api/v1/orders/{test_order_id}/assign?picker_id={test_picker_id}"
     )
     # This might fail if order doesn't exist, but we're testing the endpoint structure
-    assert response.status_code in [200, 400, 404], "Assignment endpoint should respond"
+    assert response.status_code in [
+        200,
+        400,
+        404,
+    ], "Assignment endpoint should respond"
 
     logger.info("API integration test completed")
 
@@ -181,7 +191,9 @@ def test_route_optimization():
 
     # Test route optimization for first order
     test_order = orders[0]
-    optimized_route = logistics_service.calculate_route_optimization(test_order)
+    optimized_route = logistics_service.calculate_route_optimization(
+        test_order
+    )
 
     assert len(optimized_route) > 0, "Should generate a route"
     assert all(isinstance(location, str) for location in optimized_route)

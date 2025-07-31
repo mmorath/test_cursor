@@ -18,7 +18,9 @@ from nicegui import ui
 from app.components.order_components import create_order_form_component
 from app.components.picker_components import create_picker_form_component
 from app.components.cart_components import create_cart_form_component
-from app.components.statistics_components import create_statistics_card_component
+from app.components.statistics_components import (
+    create_statistics_card_component,
+)
 
 # MARK: ━━━ Logger ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 logger = logging.getLogger(__name__)

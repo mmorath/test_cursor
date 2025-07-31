@@ -15,7 +15,8 @@ def create_cart_form_component(on_submit=None):
     """Create cart form component."""
     logger.info("Initialisiere Cart Form Component")
 
-    with ui.card().classes("full-width"):
+    card = ui.card().classes("full-width")
+    with card:
         ui.label("🛒 Add New Cart").classes("text-h6 q-mb-md")
 
         capacity = ui.number(
@@ -30,8 +31,11 @@ def create_cart_form_component(on_submit=None):
                 "bg-grey-500 q-mr-sm"
             )
             ui.button(
-                "Add", on_click=lambda: handle_cart_submit(capacity.value, on_submit)
+                "Add",
+                on_click=lambda: handle_cart_submit(capacity.value, on_submit),
             ).classes("bg-green-500")
+
+    return card
 
 
 def handle_cart_submit(capacity: float, on_submit):

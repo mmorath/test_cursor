@@ -19,14 +19,17 @@ def create_picker_form_component(on_submit=None):
     """Create picker form component."""
     logger.info("Initialisiere Picker Form Component")
 
-    with ui.card().classes("full-width"):
+    card = ui.card().classes("full-width")
+    with card:
         ui.label("👤 Add New Picker").classes("text-h6 q-mb-md")
 
         name = ui.input(
             "Name",
             validation={
                 "Name is required": lambda value: bool(value),
-                "Must be 2-50 characters": lambda value: validate_picker_name(value)
+                "Must be 2-50 characters": lambda value: validate_picker_name(
+                    value
+                )
                 is None,
             },
         ).classes("full-width q-mb-md")
@@ -52,6 +55,8 @@ def create_picker_form_component(on_submit=None):
                     name.value, employee_number.value, on_submit
                 ),
             ).classes("bg-green-500")
+
+    return card
 
 
 def handle_picker_submit(name: str, employee_number: str, on_submit):

@@ -56,7 +56,9 @@ async def list_orders(
         # Filter orders by status if specified
         if status_filter:
             orders = [
-                order for order in service.orders if order.status.value == status_filter
+                order
+                for order in service.orders
+                if order.status.value == status_filter
             ]
         else:
             orders = service.orders
@@ -192,14 +194,20 @@ async def assign_order(order_id: str, picker_id: str, request: Request):
 
 @router.post("/{order_id}/pick", response_model=BaseResponse)
 async def pick_article(
-    order_id: str, article_id: str, quantity: int, picker_id: str, request: Request
+    order_id: str,
+    article_id: str,
+    quantity: int,
+    picker_id: str,
+    request: Request,
 ):
     """Record picking of an article."""
     logger.info("📥 API v1 - POST /orders/%s/pick", order_id)
 
     try:
         service = get_logistics_service()
-        success = service.pick_article(order_id, article_id, quantity, picker_id)
+        success = service.pick_article(
+            order_id, article_id, quantity, picker_id
+        )
 
         if not success:
             return JSONResponse(

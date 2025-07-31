@@ -18,8 +18,12 @@ class CartCreate(BaseModel):
 class CartUpdate(BaseModel):
     """Model for updating a cart."""
 
-    capacity: Optional[float] = Field(None, ge=0, description="Weight capacity")
-    is_available: Optional[bool] = Field(None, description="Availability status")
+    capacity: Optional[float] = Field(
+        None, ge=0, description="Weight capacity"
+    )
+    is_available: Optional[bool] = Field(
+        None, description="Availability status"
+    )
 
 
 # EOF

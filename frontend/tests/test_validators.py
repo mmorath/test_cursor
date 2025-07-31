@@ -14,7 +14,10 @@ Created: 2025-01-28
 # MARK: ━━━ Imports ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 import logging
 
-from app.validators.order_validators import validate_project_number, validate_priority
+from app.validators.order_validators import (
+    validate_project_number,
+    validate_priority,
+)
 from app.validators.picker_validators import (
     validate_picker_name,
     validate_employee_number,
@@ -37,9 +40,15 @@ def test_validate_project_number():
 
     # Invalid project numbers
     assert validate_project_number("") == "Project number is required"
-    assert validate_project_number("12345") == "Project number must be 6 digits"
-    assert validate_project_number("1234567") == "Project number must be 6 digits"
-    assert validate_project_number("abc123") == "Project number must be 6 digits"
+    assert (
+        validate_project_number("12345") == "Project number must be 6 digits"
+    )
+    assert (
+        validate_project_number("1234567") == "Project number must be 6 digits"
+    )
+    assert (
+        validate_project_number("abc123") == "Project number must be 6 digits"
+    )
 
     logger.info("Project number validation test passed")
 
@@ -67,14 +76,18 @@ def test_validate_picker_name():
 
     # Valid names
     assert validate_picker_name("John Doe") is None
-    assert validate_picker_name("A") is None  # 2 chars minimum
+    assert validate_picker_name("AB") is None  # 2 chars minimum
     assert validate_picker_name("A" * 50) is None  # 50 chars maximum
 
     # Invalid names
     assert validate_picker_name("") == "Picker name is required"
-    assert validate_picker_name("A") == "Picker name must be at least 2 characters"
     assert (
-        validate_picker_name("A" * 51) == "Picker name must be less than 50 characters"
+        validate_picker_name("A")
+        == "Picker name must be at least 2 characters"
+    )
+    assert (
+        validate_picker_name("A" * 51)
+        == "Picker name must be less than 50 characters"
     )
 
     logger.info("Picker name validation test passed")
@@ -91,17 +104,20 @@ def test_validate_employee_number():
     # Invalid employee numbers
     assert validate_employee_number("") == "Employee number is required"
     assert (
-        validate_employee_number("EMP01") == "Employee number must be in format EMP001"
+        validate_employee_number("EMP01")
+        == "Employee number must be in format EMP001"
     )
     assert (
         validate_employee_number("EMP0001")
         == "Employee number must be in format EMP001"
     )
     assert (
-        validate_employee_number("emp001") == "Employee number must be in format EMP001"
+        validate_employee_number("emp001")
+        == "Employee number must be in format EMP001"
     )
     assert (
-        validate_employee_number("ABC001") == "Employee number must be in format EMP001"
+        validate_employee_number("ABC001")
+        == "Employee number must be in format EMP001"
     )
 
     logger.info("Employee number validation test passed")

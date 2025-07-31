@@ -16,7 +16,9 @@ class MaterialCart(BaseModel):
     assigned_picker: Optional[str] = Field(None, description="Assigned picker")
     current_order: Optional[str] = Field(None, description="Current order ID")
     capacity: float = Field(..., ge=0, description="Weight capacity")
-    current_weight: float = Field(default=0.0, ge=0, description="Current weight")
+    current_weight: float = Field(
+        default=0.0, ge=0, description="Current weight"
+    )
     is_available: bool = Field(default=True, description="Availability status")
 
     @property
@@ -47,7 +49,9 @@ class CartResponse(BaseModel):
     capacity: float = Field(..., description="Weight capacity")
     current_weight: float = Field(..., description="Current weight")
     available_capacity: float = Field(..., description="Available capacity")
-    utilization_percentage: float = Field(..., description="Utilization percentage")
+    utilization_percentage: float = Field(
+        ..., description="Utilization percentage"
+    )
     is_available: bool = Field(..., description="Availability status")
 
 

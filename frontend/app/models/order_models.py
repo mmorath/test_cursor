@@ -20,8 +20,12 @@ class OrderFilter(BaseModel):
     """Model for filtering orders."""
 
     status: Optional[str] = Field(None, description="Filter by status")
-    assigned_picker: Optional[str] = Field(None, description="Filter by picker")
-    priority: Optional[int] = Field(None, ge=1, le=10, description="Filter by priority")
+    assigned_picker: Optional[str] = Field(
+        None, description="Filter by picker"
+    )
+    priority: Optional[int] = Field(
+        None, ge=1, le=10, description="Filter by priority"
+    )
 
 
 # EOF

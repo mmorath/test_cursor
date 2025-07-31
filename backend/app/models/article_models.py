@@ -37,8 +37,12 @@ class Article(BaseModel):
     anzahl_aktion: int = Field(default=0, ge=0, description="Action count")
     kommisionierer: Optional[str] = Field(None, description="Picker")
     materialwagen: Optional[str] = Field(None, description="Material cart")
-    anzahl_auf_wagen: Optional[int] = Field(None, ge=0, description="Quantity on cart")
-    anzahl_fehlt: Optional[int] = Field(None, ge=0, description="Missing quantity")
+    anzahl_auf_wagen: Optional[int] = Field(
+        None, ge=0, description="Quantity on cart"
+    )
+    anzahl_fehlt: Optional[int] = Field(
+        None, ge=0, description="Missing quantity"
+    )
     anzahl_beschaedigt: Optional[int] = Field(
         None, ge=0, description="Damaged quantity"
     )
@@ -86,8 +90,12 @@ class ArticleUpdate(BaseModel):
     """Model for updating an article."""
 
     status: Optional[StatusEnum] = Field(None, description="Status")
-    anzahl_auf_wagen: Optional[int] = Field(None, ge=0, description="Quantity on cart")
-    anzahl_fehlt: Optional[int] = Field(None, ge=0, description="Missing quantity")
+    anzahl_auf_wagen: Optional[int] = Field(
+        None, ge=0, description="Quantity on cart"
+    )
+    anzahl_fehlt: Optional[int] = Field(
+        None, ge=0, description="Missing quantity"
+    )
     anzahl_beschaedigt: Optional[int] = Field(
         None, ge=0, description="Damaged quantity"
     )
@@ -109,9 +117,13 @@ class ArticleResponse(BaseModel):
     total_weight: float = Field(..., description="Total weight")
     available_quantity: int = Field(..., description="Available quantity")
     is_available: bool = Field(..., description="Availability status")
-    anzahl_auf_wagen: Optional[int] = Field(None, description="Quantity on cart")
+    anzahl_auf_wagen: Optional[int] = Field(
+        None, description="Quantity on cart"
+    )
     anzahl_fehlt: Optional[int] = Field(None, description="Missing quantity")
-    anzahl_beschaedigt: Optional[int] = Field(None, description="Damaged quantity")
+    anzahl_beschaedigt: Optional[int] = Field(
+        None, description="Damaged quantity"
+    )
 
 
 # EOF

@@ -16,7 +16,9 @@ class Settings(BaseSettings):
 
     # MARK: ━━━ Application Settings ━━━
 
-    app_name: str = Field("Logistics Management System", description="Application name")
+    app_name: str = Field(
+        "Logistics Management System", description="Application name"
+    )
     app_version: str = Field("1.0.0", description="Application version")
     debug: bool = Field(False, description="Debug mode")
 
@@ -37,17 +39,23 @@ class Settings(BaseSettings):
         ["http://localhost:3000", "http://127.0.0.1:3000"],
         description="Allowed CORS origins",
     )
-    cors_allow_credentials: bool = Field(True, description="Allow CORS credentials")
-    cors_allow_methods: List[str] = Field(
-        ["GET", "POST", "PUT", "DELETE", "OPTIONS"], description="Allowed CORS methods"
+    cors_allow_credentials: bool = Field(
+        True, description="Allow CORS credentials"
     )
-    cors_allow_headers: List[str] = Field(["*"], description="Allowed CORS headers")
+    cors_allow_methods: List[str] = Field(
+        ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        description="Allowed CORS methods",
+    )
+    cors_allow_headers: List[str] = Field(
+        ["*"], description="Allowed CORS headers"
+    )
 
     # MARK: ━━━ Logging Settings ━━━
 
     log_level: str = Field("INFO", description="Logging level")
     log_format: str = Field(
-        "%(asctime)s - %(name)s - %(levelname)s - %(message)s", description="Log format"
+        "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        description="Log format",
     )
 
     class Config:
@@ -71,7 +79,10 @@ def get_logging_config() -> dict:
         "version": 1,
         "disable_existing_loggers": False,
         "formatters": {
-            "default": {"format": settings.log_format, "datefmt": "%Y-%m-%d %H:%M:%S"},
+            "default": {
+                "format": settings.log_format,
+                "datefmt": "%Y-%m-%d %H:%M:%S",
+            },
             "detailed": {
                 "format": "%(asctime)s - %(name)s - %(levelname)s - %(funcName)s:%(lineno)d - %(message)s",
                 "datefmt": "%Y-%m-%d %H:%M:%S",
@@ -99,8 +110,16 @@ def get_logging_config() -> dict:
                 "handlers": ["console", "file"],
                 "propagate": False,
             },
-            "uvicorn": {"level": "INFO", "handlers": ["console"], "propagate": False},
-            "fastapi": {"level": "INFO", "handlers": ["console"], "propagate": False},
+            "uvicorn": {
+                "level": "INFO",
+                "handlers": ["console"],
+                "propagate": False,
+            },
+            "fastapi": {
+                "level": "INFO",
+                "handlers": ["console"],
+                "propagate": False,
+            },
         },
     }
 

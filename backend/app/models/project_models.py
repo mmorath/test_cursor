@@ -15,7 +15,9 @@ class Project(BaseModel):
     """Model for a project containing multiple articles."""
 
     projekt_nr: str = Field(..., description="Project number")
-    articles: List[Article] = Field(default_factory=list, description="Articles")
+    articles: List[Article] = Field(
+        default_factory=list, description="Articles"
+    )
 
     @property
     def total_articles(self) -> int:
@@ -31,7 +33,9 @@ class Project(BaseModel):
     def open_articles(self) -> List[Article]:
         """Get articles with open status."""
         return [
-            article for article in self.articles if article.status == StatusEnum.OFFEN
+            article
+            for article in self.articles
+            if article.status == StatusEnum.OFFEN
         ]
 
     @property
@@ -57,8 +61,12 @@ class ProjectResponse(BaseModel):
     total_articles: int = Field(..., description="Total articles")
     total_weight: float = Field(..., description="Total weight")
     open_articles: int = Field(..., description="Open articles count")
-    completed_articles: int = Field(..., description="Completed articles count")
-    completion_percentage: float = Field(..., description="Completion percentage")
+    completed_articles: int = Field(
+        ..., description="Completed articles count"
+    )
+    completion_percentage: float = Field(
+        ..., description="Completion percentage"
+    )
 
     @property
     def completion_percentage(self) -> float:

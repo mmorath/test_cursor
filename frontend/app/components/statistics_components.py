@@ -15,9 +15,12 @@ def create_statistics_card_component(title: str, value: str, bg_class: str):
     """Create statistics card component."""
     logger.debug(f"Creating statistics card: {title}")
 
-    with ui.card().classes(bg_class):
+    card = ui.card().classes(bg_class)
+    with card:
         ui.label(title).classes("text-h6")
         ui.label(value).classes("text-h4")
+
+    return card
 
 
 # EOF

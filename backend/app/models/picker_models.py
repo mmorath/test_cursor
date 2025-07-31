@@ -17,7 +17,9 @@ class Picker(BaseModel):
     employee_number: str = Field(..., description="Employee number")
     is_active: bool = Field(default=True, description="Active status")
     current_order: Optional[str] = Field(None, description="Current order ID")
-    total_picks_today: int = Field(default=0, ge=0, description="Total picks today")
+    total_picks_today: int = Field(
+        default=0, ge=0, description="Total picks today"
+    )
     efficiency_rating: float = Field(
         default=1.0, ge=0.0, le=2.0, description="Efficiency rating"
     )

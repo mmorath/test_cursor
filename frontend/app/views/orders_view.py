@@ -16,7 +16,8 @@ def create_orders_view():
     """Create orders management view."""
     logger.info("Initialisiere Orders View")
 
-    with ui.column().classes("full-width q-pa-md"):
+    column = ui.column().classes("full-width q-pa-md")
+    with column:
         ui.label("📋 Orders Management").classes("text-h4 q-mb-lg")
 
         # Filters
@@ -25,6 +26,8 @@ def create_orders_view():
         # Orders Table
         with ui.card().classes("full-width"):
             ui.label("No orders available").classes("text-grey-500")
+
+    return column
 
 
 # EOF

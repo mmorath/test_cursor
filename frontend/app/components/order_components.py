@@ -7,7 +7,10 @@ Order-related UI components.
 
 import logging
 from nicegui import ui
-from ..validators.order_validators import validate_project_number, validate_priority
+from ..validators.order_validators import (
+    validate_project_number,
+    validate_priority,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -16,21 +19,24 @@ def create_order_form_component(on_submit=None):
     """Create order form component."""
     logger.info("Initialisiere Order Form Component")
 
-    with ui.card().classes("full-width"):
+    card = ui.card().classes("full-width")
+    with card:
         ui.label("➕ Create New Order").classes("text-h6 q-mb-md")
 
         project_number = ui.input(
             "Project Number",
             validation={
                 "Project number is required": lambda value: bool(value),
-                "Must be 6 digits": lambda value: validate_project_number(value)
+                "Must be 6 digits": lambda value: validate_project_number(
+                    value
+                )
                 is None,
             },
         ).classes("full-width q-mb-md")
 
-        priority = ui.select("Priority", options=[1, 2, 3, 4, 5], value=1).classes(
-            "full-width q-mb-md"
-        )
+        priority = ui.select(
+            label="Priority", options=[1, 2, 3, 4, 5], value=1
+        ).classes("full-width q-mb-md")
 
         with ui.row():
             ui.button("Cancel", on_click=lambda: ui.close_dialog()).classes(
@@ -43,22 +49,25 @@ def create_order_form_component(on_submit=None):
                 ),
             ).classes("bg-green-500")
 
+    return card
+
 
 def create_order_filter_component(on_filter=None):
     """Create order filter component."""
     logger.info("Initialisiere Order Filter Component")
 
-    with ui.card().classes("full-width"):
+    card = ui.card().classes("full-width")
+    with card:
         ui.label("🔍 Filter Orders").classes("text-h6 q-mb-md")
 
         status_filter = ui.select(
-            "Status",
+            label="Status",
             options=["All", "Offen", "In Bearbeitung", "Abgeschlossen"],
             value="All",
         ).classes("q-mr-md")
 
         priority_filter = ui.select(
-            "Priority", options=["All", 1, 2, 3, 4, 5], value="All"
+            label="Priority", options=["All", 1, 2, 3, 4, 5], value="All"
         ).classes("q-mr-md")
 
         ui.button(
@@ -67,6 +76,8 @@ def create_order_filter_component(on_filter=None):
                 status_filter.value, priority_filter.value, on_filter
             ),
         ).classes("bg-blue-500")
+
+    return card
 
 
 def handle_order_submit(project_number: str, priority: int, on_submit):
