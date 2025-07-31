@@ -7,7 +7,7 @@ status: active
 last_updated: 1753967677.0033057
 ---
 
-### 📄 `docs/codex/spec.diagramm.md` 
+### 📄 `docs/codex/spec.diagramm.md`
 # 📘 spec.docs.diagramming.md
 
 ## Ziel

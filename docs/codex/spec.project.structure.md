@@ -11,7 +11,7 @@ last_updated: 1753967677.0033057
 
 Dieses Dokument fasst die aufgeräumte Struktur der Codex-Templates zusammen.
 
-## 
+##
 ## 📋 Related Templates
 
 - `models/model_base.py.j2`

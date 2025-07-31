@@ -144,7 +144,7 @@ pydantic==2.7.1
 
 ---
 
-## 
+##
 ## 📋 Related Templates
 
 - `components/input_validated_input.py.j2`

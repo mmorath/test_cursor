@@ -34,7 +34,7 @@ Diese Spezifikation definiert:
 
 ---
 
-## 
+##
 ## 📋 Related Templates
 
 - `logger/logger_template.py.j2`
@@ -81,7 +81,7 @@ Diese Spezifikation definiert:
 
 2. Initialisierung
 
-# Generiert aus 
+# Generiert aus
 Datei: app/logger/logger_config.py
 
 # File: app/logger/logger_config.py

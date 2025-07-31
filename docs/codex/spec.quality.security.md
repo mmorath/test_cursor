@@ -12,7 +12,7 @@ Hier ist die vollständige Spezifikationsdatei `spec.security.md`, die du in dei
 ---
 
 ````markdown
-# File: spec.security.md  
+# File: spec.security.md
 # Path: docs/codex/spec.security.md
 
 # Spezifikation: Sicherheitsanforderungen und -maßnahmen

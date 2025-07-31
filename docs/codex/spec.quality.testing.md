@@ -7,7 +7,7 @@ status: active
 last_updated: 1753967677.0033057
 ---
 
-# File: spec.tests.md  
+# File: spec.tests.md
 # Path: docs/codex/spec.tests.md
 
 # Spezifikation: Teststrategie
