@@ -261,5 +261,54 @@ class DataService:
         logger.info(f"Data validation completed: {report}")
         return report
 
+    def _load_csv_from_path(
+        self, file_path: str, delimiter: str = "|", skip_initial_space: bool = True
+    ) -> List[Dict[str, Any]]:
+        """Load data from CSV file at specific path."""
+        try:
+            logger.info(f"Loading CSV data from {file_path}")
+            df = pd.read_csv(file_path, sep=delimiter, skipinitialspace=skip_initial_space)
+            df.columns = df.columns.str.strip()
+            data = df.to_dict("records")
+            logger.info(f"Loaded {len(data)} records from {file_path}")
+            return data
+        except Exception as e:
+            logger.error(f"Error loading CSV file {file_path}: {e}")
+            raise
+
+    def _parse_csv_articles_from_data(self, raw_data: List[Dict[str, Any]]) -> List[Article]:
+        """Parse raw CSV data into Article objects."""
+        articles = []
+
+        for row in raw_data:
+            try:
+                cleaned_row = self._clean_row_data(row)
+                article = Article(**cleaned_row)
+                articles.append(article)
+            except Exception as e:
+                logger.warning(f"Failed to parse row: {e}")
+                continue
+
+        logger.info(f"Successfully parsed {len(articles)} articles from CSV data")
+        return articles
+
+    def _create_projects_from_articles(self, articles: List[Article]) -> List[Project]:
+        """Create projects from articles by grouping by project number."""
+        from collections import defaultdict
+        
+        # Group articles by project number
+        project_groups = defaultdict(list)
+        for article in articles:
+            project_groups[article.projekt_nr].append(article)
+        
+        # Create projects
+        projects = []
+        for projekt_nr, project_articles in project_groups.items():
+            project = Project(projekt_nr=projekt_nr, articles=project_articles)
+            projects.append(project)
+        
+        logger.info(f"Created {len(projects)} projects from {len(articles)} articles")
+        return projects
+
 
 # EOF

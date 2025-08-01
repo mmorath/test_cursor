@@ -6,7 +6,7 @@ API v1 package for the logistics management system.
 """
 
 from fastapi import APIRouter
-from .routes import orders, pickers, carts, statistics
+from .routes import orders, pickers, carts, statistics, data
 
 # MARK: ━━━ API v1 Router ━━━
 
@@ -19,5 +19,6 @@ api_router.include_router(carts.router, prefix="/carts", tags=["carts"])
 api_router.include_router(
     statistics.router, prefix="/statistics", tags=["statistics"]
 )
+api_router.include_router(data.router, prefix="/data", tags=["data"])
 
 # EOF
